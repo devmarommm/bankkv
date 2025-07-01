@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analitik KV - Bank KV</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Loader -->
+  <div class="loader-wrapper">
+    <div class="loader">
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="scrolled">
+    <div class="container">
+      <div class="logo">
+        <img src="images/logo.png" alt="Bank KV" />
+        <h1>Bank KV</h1>
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Beranda</a></li>
+          <li><a href="upload.html" class="nav-link">Upload KV</a></li>
+          <li><a href="exchange.html" class="nav-link">Pertukaran KV</a></li>
+          <li><a href="search.html" class="nav-link">Pencarian KV</a></li>
+          <li><a href="analitik.html" class="nav-link active">Analitik KV</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Dashboard <span>Analitik KV</span></h1>
+        <p class="hero-subtitle">Pantau performa Key Visual Anda melalui data penggunaan, popularitas, dan interaksi dalam satu tampilan intuitif.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Analytics Section -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Statistik Penggunaan KV</h2>
+        <p class="section-subtitle">Dapatkan wawasan penting mengenai performa dan efektivitas setiap Key Visual.</p>
+      </div>
+
+      <div style="max-width: 800px; margin: 0 auto">
+        <canvas id="kvChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p style="text-align: center; padding: 2rem 0; color: #fff">&copy; 2025 Bank KV. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+  <script>
+    window.addEventListener("load", function () {
+      const loader = document.querySelector(".loader-wrapper");
+      if (loader) loader.style.display = "none";
+    });
+
+    // Chart setup
+    const ctx = document.getElementById('kvChart').getContext('2d');
+    const kvChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['KV Branding A', 'KV Promo B', 'KV Event C', 'KV Seasonal D'],
+        datasets: [{
+          label: 'Jumlah Download',
+          data: [120, 95, 140, 80],
+          backgroundColor: ['#6C5CE7', '#00CEFF', '#FF7675', '#636E72']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Data Interaksi Key Visual Bulan Ini'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

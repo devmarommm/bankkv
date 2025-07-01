@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload KV - Bank KV</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://kit.fontawesome.com/your-fontawesome-key.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Loader -->
+  <div class="loader-wrapper">
+    <div class="loader">
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="scrolled">
+    <div class="container">
+      <div class="logo">
+        <img src="images/logo.png" alt="Bank KV Logo" />
+        <h1>Bank KV</h1>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Beranda</a>
+        <a href="#upload" class="nav-link active">Upload KV</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Upload Section -->
+  <section id="upload">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Unggah Key Visual Anda</h2>
+        <p class="section-subtitle">Pastikan file yang diunggah sesuai dengan ketentuan platform.</p>
+      </div>
+
+      <form id="uploadForm" class="upload-form">
+        <input type="file" id="kvFile" name="kvFile" accept="image/*,.pdf" required />
+        <button type="submit" class="btn btn-primary">Unggah KV</button>
+        <p id="uploadMessage"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer (optional) -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Bank KV. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Handle Upload
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const file = document.getElementById('kvFile').files[0];
+      if (file) {
+        handleKVUpload(file).then(result => {
+          document.getElementById('uploadMessage').textContent = result.message;
+        });
+      }
+    });
+  </script>
+</body>
+</html>

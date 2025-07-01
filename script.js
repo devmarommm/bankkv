@@ -19,22 +19,6 @@ mobileMenuToggle.addEventListener('click', () => {
     document.querySelector('nav').classList.toggle('active');
 });
 
-// Form submission handling (example for login)
-const loginForm = document.createElement('form');
-loginForm.id = 'login-form';
-loginForm.innerHTML = `
-    <h3>Masuk ke Akun Anda</h3>
-    <input type="email" placeholder="Email" required>
-    <input type="password" placeholder="Password" required>
-    <button type="submit" class="btn-primary">Masuk</button>
-`;
-
-document.querySelector('a[href="#login"]').addEventListener('click', (e) => {
-    e.preventDefault();
-    // In a real implementation, this would show a modal
-    alert('Fitur login akan ditampilkan di sini');
-});
-
 // Animation on scroll
 window.addEventListener('scroll', () => {
     const scrollPosition = window.scrollY;
@@ -64,18 +48,21 @@ window.addEventListener("load", function () {
         loader.style.display = "none";
     }
 });
-//
-function closeModal() {
-    document.getElementById('login-modal').classList.add('hidden');
-    document.getElementById('register-modal').classList.add('hidden');
+
+// Menampilkan modal login
+document.querySelector('a[href="#login"]').addEventListener('click', function (e) {
+  e.preventDefault();
+  document.getElementById("login-modal").classList.remove("hidden");
+});
+
+// Menampilkan modal daftar
+document.querySelector('a[href="#daftar"]').addEventListener('click', function (e) {
+  e.preventDefault();
+  document.getElementById("register-modal").classList.remove("hidden");
+});
+
+// Menutup modal
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.add("hidden");
 }
 
-document.querySelector('a[href="#login"]').addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('login-modal').classList.remove('hidden');
-});
-
-document.querySelector('a[href="#daftar"]').addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('register-modal').classList.remove('hidden');
-});

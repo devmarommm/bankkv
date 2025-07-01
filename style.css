@@ -198,22 +198,33 @@ header .container {
     justify-content: space-between;
 }
 
+/* LOGO STYLE FIX */
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo img {
-    height: 40px;
+  height: 70px;
+  width: auto;
 }
 
 .logo h1 {
-    font-size: 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
 }
 
-.logo h1 span {
-    color: var(--primary-color);
+/* Responsive adjustment */
+@media (max-width: 768px) {
+  .logo img {
+    height: 45px;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem;
+  }
 }
 
 nav {
@@ -287,33 +298,6 @@ nav {
 
 .hamburger.active span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
-}
-
-.modal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-.modal.hidden {
-  display: none;
-}
-.modal-content {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-}
-.close-btn {
-  position: absolute;
-  top: 20px; right: 30px;
-  font-size: 24px;
-  cursor: pointer;
 }
 
 /* ================ Hero Section ================ */
@@ -847,8 +831,13 @@ nav {
 }
 
 .cta-image img {
-    border-radius: 15px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  height: auto;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  display: block;
+  margin: 0 auto;
 }
 
 /* ================ Footer ================ */
@@ -859,3 +848,197 @@ footer {
 }
 
 .footer-grid {
+}.
+
+/* FIXED MODAL STYLING */
+
+.modal-box h2 {
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #222;
+}
+
+.modal-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-box input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.6rem;
+  outline: none;
+}
+
+.modal-box .btn-primary {
+  background: linear-gradient(to right, #6A11CB, #2575FC);
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-box .btn-primary:hover {
+  background: linear-gradient(to right, #2575FC, #6A11CB);
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.25rem;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  padding: 1rem;
+}
+.modal.hidden {
+  display: none;
+}
+.modal-box {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  animation: fadeInCenter 0.3s ease;
+  position: relative;
+}
+
+@keyframes popInCenter {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+
+.upload-form input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.upload-form p {
+  margin-top: 10px;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+/* ... CARD SEARCH.HTML ... */
+
+#search .results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+}
+
+/* Card result styling */
+.search-result-card {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.search-result-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Baris tiap informasi */
+.search-result-card .card-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+/* Label kiri */
+.search-result-card .card-label {
+  font-weight: 600;
+  color: #444;
+  font-size: 0.95rem;
+  width: 140px;
+}
+
+/* Isi kanan */
+.search-result-card .card-row span:not(.card-label) {
+  color: #222;
+  font-size: 0.95rem;
+  text-align: right;
+  flex: 1;
+}
+
+/* Gambar KV */
+.search-result-card .card-image-container {
+  width: 100%;
+  height: 180px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 12px 0;
+  border: 1px solid #eee;
+}
+
+.search-result-card .card-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tombol/link buka */
+.search-result-card a {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.25s ease;
+}
+
+.search-result-card a:hover {
+  background-color: #0056b3;
+  text-decoration: none;
+}
