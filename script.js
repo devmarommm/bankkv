@@ -1,15 +1,15 @@
-// Smooth scrolling for anchor links
+// Smooth scrolling untuk anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
     });
 });
 
-// Mobile menu toggle (would be added when implementing mobile view)
+// Mobile menu toggle
 const mobileMenuToggle = document.createElement('div');
 mobileMenuToggle.className = 'mobile-menu-toggle';
 mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
@@ -19,50 +19,95 @@ mobileMenuToggle.addEventListener('click', () => {
     document.querySelector('nav').classList.toggle('active');
 });
 
-// Animation on scroll
+// Header shadow saat scroll
 window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
     const scrollPosition = window.scrollY;
-    
-    // Add header shadow when scrolling
-    if (scrollPosition > 50) {
-        document.querySelector('header').style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-    } else {
-        document.querySelector('header').style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    }
+    header.style.boxShadow = scrollPosition > 50
+        ? '0 4px 12px rgba(0, 0, 0, 0.1)'
+        : '0 2px 10px rgba(0, 0, 0, 0.1)';
 });
 
-// Sample function to handle KV upload (would be connected to backend in real implementation)
+// Loader hilang saat halaman selesai dimuat
+window.addEventListener("load", () => {
+    const loader = document.querySelector(".loader-wrapper");
+    if (loader) loader.style.display = "none";
+});
+
+// Fungsi buka modal
+function openModal(id) {
+    document.getElementById(id).classList.remove("hidden");
+}
+
+// Fungsi tutup modal
+function closeModal(id) {
+    document.getElementById(id).classList.add("hidden");
+}
+
+// Fungsi Login
+function loginUser() {
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    if (!email || !password) {
+        alert("Email dan password harus diisi.");
+        return;
+    }
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            const redirectURL = email.includes('admin') ? "Admin/dashboard_admin.html" : "Guest/dashboard_guest.html";
+            window.location.href = redirectURL;
+        })
+        .catch((error) => {
+            alert("Login gagal: " + error.message);
+        });
+}
+
+// Fungsi Daftar
+function registerUser() {
+    const name = document.getElementById('register-name').value.trim();
+    const email = document.getElementById('register-email').value.trim();
+    const password = document.getElementById('register-password').value;
+
+    if (!name || !email || !password) {
+        alert("Semua kolom harus diisi.");
+        return;
+    }
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            return userCredential.user.updateProfile({ displayName: name });
+        })
+        .then(() => {
+            alert("Registrasi berhasil! Silakan login.");
+            closeModal('register-modal');
+            openModal('login-modal');
+        })
+        .catch((error) => {
+            alert("Registrasi gagal: " + error.message);
+        });
+}
+
+// Simulasi upload KV
 function handleKVUpload(file) {
     console.log('File uploaded:', file.name);
-    // In a real implementation, this would upload to a server
     return Promise.resolve({
         success: true,
         message: 'KV berhasil diunggah!',
         pointsEarned: 10
     });
 }
-// Menghilangkan loader saat halaman selesai dimuat
-window.addEventListener("load", function () {
-    const loader = document.querySelector(".loader-wrapper");
-    if (loader) {
-        loader.style.display = "none";
-    }
-});
 
-// Menampilkan modal login
-document.querySelector('a[href="#login"]').addEventListener('click', function (e) {
-  e.preventDefault();
-  document.getElementById("login-modal").classList.remove("hidden");
-});
-
-// Menampilkan modal daftar
-document.querySelector('a[href="#daftar"]').addEventListener('click', function (e) {
-  e.preventDefault();
-  document.getElementById("register-modal").classList.remove("hidden");
-});
-
-// Menutup modal
-function closeModal(modalId) {
-  document.getElementById(modalId).classList.add("hidden");
-}
-
+// Firebase config
+const firebaseConfig = {
+    apiKey: "AIzaSyA3wCPXQkoIpf_sYoVNrseoTWp5heH0VAE",
+    authDomain: "bank-kv-1910f.firebaseapp.com",
+    projectId: "bank-kv-1910f",
+    storageBucket: "bank-kv-1910f.firebasestorage.app",
+    messagingSenderId: "87795172113",
+    appId: "1:87795172113:web:08b077dbfbdee9adbfc2b0",
+    measurementId: "G-84VE29GC3W"
+};
+firebase.initializeApp(firebaseConfig);

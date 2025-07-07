@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Guest | Bank KV</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    #searchSection {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background-color: #f9fafb;
+      padding: 60px 20px;
+      border-top: 2px solid #e5e7eb;
+    }
+
+    .search-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .search-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .input-group input {
+      padding: 10px 15px;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      width: 280px;
+      outline: none;
+    }
+
+    .filter-group select {
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-primary {
+      background: #4f46e5;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #4338ca;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .search-result-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-result-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+
+    .card-row {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .card-label {
+      font-weight: 600;
+      color: #374151;
+      display: inline-block;
+      width: 90px;
+    }
+
+    .card-image-container img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 600px) {
+      .search-controls {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .input-group input, .filter-group select {
+        width: 100%;
+      }
+    }
+  </style>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchBtn = document.getElementById('searchBtn');
+      const searchInput = document.getElementById('searchInput');
+      const resultsContainer = document.getElementById('resultsContainer');
+
+      const mockData = [
+        { nomor: 1, nama: 'KV Ramadan', kategori: 'Event', tag: 'ramadan', image: '../images/sample-1.png', kreator: 'Budi Santoso', tanggal: '2024-03-10', link: 'https://drive.google.com/folder1' },
+        { nomor: 2, nama: 'KV Promo Akhir Tahun', kategori: 'Promo', tag: 'promo', image: '../images/sample-2.png', kreator: 'Siti Aminah', tanggal: '2023-11-25', link: 'https://drive.google.com/folder2' },
+        { nomor: 3, nama: 'KV Hari Kartini', kategori: 'Event', tag: 'kartini', image: '../images/sample-3.png', kreator: 'Joko Prasetyo', tanggal: '2024-04-15', link: 'https://drive.google.com/folder3' }
+      ];
+
+      function renderResults(results) {
+        resultsContainer.innerHTML = '';
+        if (results.length === 0) {
+          resultsContainer.innerHTML = '<p>Tidak ada hasil ditemukan.</p>';
+          return;
+        }
+        results.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'search-result-card';
+          card.innerHTML = `
+            <div class="card-row"><span class="card-label">Nomor:</span><span>${item.nomor}</span></div>
+            <div class="card-row"><span class="card-label">Foto/KV:</span>
+              <div class="card-image-container"><img src="${item.image}" alt="${item.nama}"></div>
+            </div>
+            <div class="card-row"><span class="card-label">Nama:</span><span>${item.nama}</span></div>
+            <div class="card-row"><span class="card-label">Kreator:</span><span>${item.kreator}</span></div>
+            <div class="card-row"><span class="card-label">Tanggal:</span><span>${item.tanggal}</span></div>
+            <div class="card-row"><span class="card-label">Akses:</span><span><a href="${item.link}" target="_blank">Buka</a></span></div>
+          `;
+          resultsContainer.appendChild(card);
+        });
+      }
+
+      searchBtn.addEventListener('click', () => {
+        const keyword = searchInput.value.toLowerCase();
+        const selectedYear = document.getElementById('filterYear').value;
+        const selectedMonth = document.getElementById('filterMonth').value;
+
+        const filtered = mockData.filter(item => {
+          const tanggal = new Date(item.tanggal);
+          const itemYear = tanggal.getFullYear().toString();
+          const itemMonth = (tanggal.getMonth() + 1).toString().padStart(2, '0');
+          const keywordMatch = item.nama.toLowerCase().includes(keyword) || item.kategori.toLowerCase().includes(keyword) || item.tag.toLowerCase().includes(keyword);
+          const yearMatch = !selectedYear || itemYear === selectedYear;
+          const monthMatch = !selectedMonth || itemMonth === selectedMonth;
+          return keywordMatch && yearMatch && monthMatch;
+        });
+
+        renderResults(filtered);
+      });
+    });
+  </script>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="logo">
+        <img src="../images/logo.png" alt="Bank KV Logo">
+        <h1>Bank<span>KV</span></h1>
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Beranda</a></li>
+          <li><a href="#searchSection">Cari KV</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-guest">
+    <div class="intro-box fade-in">
+      <div class="intro-image">
+        <img src="../images/KV-illustration.png" alt="KV Illustration"/>
+      </div>
+      <div class="intro-content">
+        <h2>Selamat Datang, Guest!</h2>
+        <p>Temukan dan kelola Key Visual sesuai kebutuhanmu. Mulai dari pencarian hingga penyimpanan, semua ada di sini.</p>
+        <a href="#searchSection" class="btn btn-primary">Mulai Pencarian KV</a>
+      </div>
+    </div>
+  </main>
+
+  <section class="dashboard-main">
+    <div class="kv-grid">
+      <div class="kv-card">
+        <p><strong>Nomor:</strong> 01 </p>
+        <div class="kv-image">
+          <img src="../images/sample-1.png">
+        </div>
+        <p><strong>Nama Produk: </strong> kv visa </p>
+        <p><strong>Kreator: </strong> Brody Joy</p>
+        <p><strong>Tanggal: </strong> 2025-07-02</p>
+        <a href="https://drive.google.com/folderlink1" target="_blank" class="link-kv">Lihat KV</a>
+      </div>
+      <div class="kv-card">
+        <p><strong>Nomor:</strong> 02 </p>
+        <div class="kv-image">
+          <img src="../images/sample-2.png">
+        </div>
+        <p><strong>Nama Produk: </strong> Bdeance Seoul </p>
+        <p><strong>Kreator: </strong> Zilong Execute</p>
+        <p><strong>Tanggal: </strong>2024-03-30</p>
+        <a href="https://drive.google.com/folderlink2" target="_blank" class="link-kv">Lihat KV</a>
+      </div>
+      <div class="kv-card">
+        <p><strong>Nomor:</strong> 03</p>
+        <div class="kv-image">
+          <img src="../images/sample-3.png" alt="KV Produk 3" />
+        </div>
+        <p><strong>Nama Produk: </strong> Kopi JosJiss</p>
+        <p><strong>Kreator: </strong> Balmond Cool</p>
+        <p><strong>Tanggal: </strong>2023-04-05</p>
+        <a href="https://drive.google.com/folderlink3" target="_blank" class="link-kv">Lihat KV</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search Section -->
+  <section id="searchSection">
+    <div class="container">
+      <h2 class="section-title" style="text-align: center; font-size: 28px; margin-bottom: 10px;">Pencarian Key Visual</h2>
+      <p class="section-subtitle" style="text-align: center; color: #6b7280; margin-bottom: 30px;">Gunakan sistem pencarian kami untuk menemukan KV sesuai kebutuhan Anda.</p>
+
+      <div class="search-section">
+        <div class="search-controls">
+          <div class="input-group">
+            <input type="text" id="searchInput" placeholder="🔍 Cari KV berdasarkan nama, kategori, atau tag...">
+          </div>
+
+          <div class="filter-group">
+            <select id="filterYear">
+              <option value="">Tahun</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+            </select>
+            <select id="filterMonth">
+              <option value="">Bulan</option>
+              <option value="01">Jan</option>
+              <option value="02">Feb</option>
+              <option value="03">Mar</option>
+              <option value="04">Apr</option>
+              <option value="05">Mei</option>
+              <option value="06">Jun</option>
+              <option value="07">Jul</option>
+              <option value="08">Agu</option>
+              <option value="09">Sep</option>
+              <option value="10">Okt</option>
+              <option value="11">Nov</option>
+              <option value="12">Des</option>
+            </select>
+
+            <button id="searchBtn" class="btn btn-primary">
+              <i class="fas fa-search"></i> 
+              Cari
+            </button>
+          </div>
+        </div>
+
+        <div class="results-grid" id="resultsContainer">
+          <!-- Hasil pencarian akan muncul di sini -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Bank KV. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
