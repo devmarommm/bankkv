@@ -10,13 +10,16 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Mobile menu toggle
-const mobileMenuToggle = document.createElement('div');
-mobileMenuToggle.className = 'mobile-menu-toggle';
-mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-document.querySelector('header .container').appendChild(mobileMenuToggle);
+document.addEventListener('DOMContentLoaded', function () {
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+    const navButtons = document.getElementById('nav-buttons');
 
-mobileMenuToggle.addEventListener('click', () => {
-    document.querySelector('nav').classList.toggle('active');
+    hamburger.addEventListener('click', function() {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        navButtons.classList.toggle('active');
+    });
 });
 
 // Header shadow saat scroll
@@ -110,4 +113,33 @@ const firebaseConfig = {
     appId: "1:87795172113:web:08b077dbfbdee9adbfc2b0",
     measurementId: "G-84VE29GC3W"
 };
+
+// Mobile animasi menu
+document.querySelectorAll('.nav-links li a').forEach(link => {
+    link.addEventListener('click', function() {
+      document.querySelectorAll('.nav-links li a').forEach(el => el.classList.remove('active'));
+      this.classList.add('active');
+    });
+});
+
+// Event Listener tombol #btn-register to btn-mulai sekarang
+document.addEventListener("DOMContentLoaded", function () {
+    const btnRegister = document.getElementById('btn-register');
+    if (btnRegister) {
+        btnRegister.addEventListener('click', function () {
+            openModal('register-modal');
+        })
+    }
+});
+
+// Event Listener Tombol #demo
+document.addEventListener("DOMContentLoaded", function () {
+    const btnDemo = document.getElementById('btn-demo');
+    if (btnDemo) {
+        btnDemo.addEventListener('click', function () {
+            openModal('demo-modal');
+        });
+    }
+});
+
 firebase.initializeApp(firebaseConfig);

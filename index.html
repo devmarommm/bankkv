@@ -29,24 +29,26 @@
                 <img src="images/logo.png" alt="Bank KV Logo">
                 <h1>Bank<span>KV</span></h1>
             </div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#home" class="nav-link active">Beranda</a></li>
-                    <li><a href="#layanan" class="nav-link">Layanan</a></li>
-                    <li><a href="#cara-kerja" class="nav-link">Cara Kerja</a></li>
-                    <li><a href="#testimoni" class="nav-link">Testimoni</a></li>
-                    <li><a href="#kontak" class="nav-link">Kontak</a></li>
-                </ul>
-                <div class="nav-buttons">
-                    <a href="#" onclick="openModal('login-modal')" class="btn btn-outline">Masuk</a>
-                    <a href="#" onclick="openModal('register-modal')" class="btn btn-primary">Daftar</a>
-                </div>
-            </nav>
-            <div class="hamburger">
+            <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
+            <nav id="nav-links">
+                <ul class="nav-links">
+                    <li><a href="#hero" class="nav-link active">Beranda</a></li>
+                    <li><a href="#layanan" class="nav-link">Layanan</a></li>
+                    <li><a href="#cara-kerja" class="nav-link">Cara Kerja</a></li>
+                    <li><a href="#testimoni" class="nav-link">Testimoni</a></li>
+                    <li><a href="#kontak" class="nav-link">Kontak</a></li>
+                    <div class="nav-underline"></div>
+                </ul>
+
+                <div class="nav-buttons" id="nav-buttons">
+                    <a href="#" onclick="openModal('login-modal')" class="btn btn-outline">Masuk</a>
+                    <a href="#" onclick="openModal('register-modal')" class="btn btn-primary">Daftar</a>
+                </div>
+            </nav>
         </div>
     </header>
 
@@ -82,11 +84,26 @@
     <section id="hero">
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">Tempat <span>Premium</span> untuk Aset Visual Anda</h1>
-                <p class="hero-subtitle">Simpan, tukar, dan temukan key visual berkualitas tinggi untuk proyek kreatif Anda</p>
+                <h1 class="hero-title">
+                        Tempat <span class="typing-effect">Premium</span>untuk Aset Visual Anda
+                    </h1>
+                <p class="hero-subtitle">Simpan dan temukan key visual berkualitas tinggi untuk referensi proyek kreatif Anda</p>
                 <div class="hero-cta">
-                    <a href="#daftar" class="btn btn-primary btn-lg">Mulai Sekarang <i class="fas fa-arrow-right"></i></a>
-                    <a href="#demo" class="btn btn-outline btn-lg">Lihat Demo <i class="fas fa-play"></i></a>
+                    <a href="javascript:void(0);" id="btn-register" class="btn btn-primary btn-lg">Mulai Sekarang <i class="fas fa-arrow-right"></i></a>
+                    <a href="javascript:void(0);" id="btn-demo" class="btn btn-outline btn-lg">Lihat Demo <i class="fas fa-play"></i></a>
+                </div>
+                <!--=== Modal Demo ===-->
+                <div id="demo-modal" class="modal hidden demo-modal">
+                    <div class="modal-box">
+                        <span class="close-btn" onclick="closeModal('demo-modal')">&times;</span>
+                        <h2>Cara Kerja Bank KV</h2>
+                        <ol class="demo-steps-popup">
+                            <li><strong>1. Daftar atau Masuk</strong>: Login sebagai Guest/Admin</li>
+                            <li><strong>2. Upload KV</strong>: Unggah aset visual kamu</li>
+                            <li><strong>3. Verifikasi</strong>: Admin memeriksa dan menyetujui</li>
+                            <li><strong>4. Cari KV</strong>: Temukan inspirasi visual dari banyak kategori</li>
+                        </ol>
+                    </div>
                 </div>
                 <div class="hero-stats">
                     <div class="stat-item">
@@ -116,19 +133,6 @@
                         <img src="images/sample-3.png" alt="Sample 3">
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="partners">
-        <div class="container">
-            <p>Dipercaya oleh perusahaan kreatif terkemuka</p>
-            <div class="partner-logos">
-                <img src="images/partner-1.png" alt="Partner 1">
-                <img src="images/partner-2.png" alt="Partner 2">
-                <img src="images/partner-3.png" alt="Partner 3">
-                <img src="images/partner-4.png" alt="Partner 4">
-                <img src="images/partner-5.png" alt="Partner 5">
             </div>
         </div>
     </section>
@@ -201,31 +205,34 @@
                 <div class="steps">
                     <div class="step active">
                         <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3>Buat Akun</h3>
-                            <p>Daftar dan verifikasi akun Anda dalam 1 menit</p>
-                        </div>
+                            <div class="step-content">
+                                <h3>Buat Akun</h3>
+                                <p>Daftar dan verifikasi akun Anda dalam 1 menit</p>
+                            </div>
                     </div>
-                    <div class="step">
+
+                    <div class="step active">
                         <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3>Unggah KV</h3>
-                            <p>Upload key visual Anda dengan drag & drop</p>
-                        </div>
+                            <div class="step-content">
+                                <h3>Unggah KV</h3>
+                                <p>Upload key visual Anda dengan drag & drop</p>
+                            </div>
                     </div>
-                    <div class="step">
+
+                    <div class="step active">
                         <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3>Dapatkan Poin</h3>
-                            <p>Dapatkan poin untuk setiap KV yang dibagikan</p>
-                        </div>
+                            <div class="step-content">
+                                <h3>Dapatkan Poin</h3>
+                                <p>Dapatkan poin untuk setiap KV yang dibagikan</p>
+                            </div>
                     </div>
-                    <div class="step">
+
+                    <div class="step active">
                         <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h3>Tukar/Gunakan</h3>
-                            <p>Tukar poin atau gunakan KV untuk proyek Anda</p>
-                        </div>
+                            <div class="step-content">
+                                <h3>Tukar/Gunakan</h3>
+                                <p>Tukar poin atau gunakan KV untuk proyek Anda</p>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -378,5 +385,27 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+    /*=== Js Animasi Typing ===*/
+    document.addEventListener("DOMContentLoaded", () => {
+        const premiumText = document.querySelector(".typing-effect");
+
+        const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+            // Reset animasi agar bisa diputar ulang
+            premiumText.classList.remove("typing-effect");
+            void premiumText.offsetWidth; // trigger reflow
+            premiumText.classList.add("typing-effect");
+        }
+        });
+    }, {
+      threshold: 0.6 // aktif saat 60% teks masuk layar
+    });
+
+    observer.observe(premiumText);
+    });
+    </script>
+
 </body>
 </html>

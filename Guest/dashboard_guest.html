@@ -179,10 +179,15 @@
         <img src="../images/logo.png" alt="Bank KV Logo">
         <h1>Bank<span>KV</span></h1>
       </div>
-      <nav>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav id="nav-menu">
         <ul class="nav-links">
-          <li><a href="../index.html">Beranda</a></li>
-          <li><a href="#searchSection">Cari KV</a></li>
+          <li><a href="../index.html" class="nav-link active">Beranda</a></li>
+          <li><a href="#searchSection" class="nav-link active">Cari KV</a></li>
         </ul>
       </nav>
     </div>
@@ -190,54 +195,22 @@
 
   <main class="main-guest">
     <div class="intro-box fade-in">
-      <div class="intro-image">
-        <img src="../images/KV-illustration.png" alt="KV Illustration"/>
-      </div>
+      <div class="intro-inner">
+
+       <div class="intro-image">
+         <img src="../images/KV-illustration.png" alt="KV Illustration"/>
+       </div>
       <div class="intro-content">
         <h2>Selamat Datang, Guest!</h2>
         <p>Temukan dan kelola Key Visual sesuai kebutuhanmu. Mulai dari pencarian hingga penyimpanan, semua ada di sini.</p>
         <a href="#searchSection" class="btn btn-primary">Mulai Pencarian KV</a>
       </div>
+      </div>
     </div>
   </main>
 
-  <section class="dashboard-main">
-    <div class="kv-grid">
-      <div class="kv-card">
-        <p><strong>Nomor:</strong> 01 </p>
-        <div class="kv-image">
-          <img src="../images/sample-1.png">
-        </div>
-        <p><strong>Nama Produk: </strong> kv visa </p>
-        <p><strong>Kreator: </strong> Brody Joy</p>
-        <p><strong>Tanggal: </strong> 2025-07-02</p>
-        <a href="https://drive.google.com/folderlink1" target="_blank" class="link-kv">Lihat KV</a>
-      </div>
-      <div class="kv-card">
-        <p><strong>Nomor:</strong> 02 </p>
-        <div class="kv-image">
-          <img src="../images/sample-2.png">
-        </div>
-        <p><strong>Nama Produk: </strong> Bdeance Seoul </p>
-        <p><strong>Kreator: </strong> Zilong Execute</p>
-        <p><strong>Tanggal: </strong>2024-03-30</p>
-        <a href="https://drive.google.com/folderlink2" target="_blank" class="link-kv">Lihat KV</a>
-      </div>
-      <div class="kv-card">
-        <p><strong>Nomor:</strong> 03</p>
-        <div class="kv-image">
-          <img src="../images/sample-3.png" alt="KV Produk 3" />
-        </div>
-        <p><strong>Nama Produk: </strong> Kopi JosJiss</p>
-        <p><strong>Kreator: </strong> Balmond Cool</p>
-        <p><strong>Tanggal: </strong>2023-04-05</p>
-        <a href="https://drive.google.com/folderlink3" target="_blank" class="link-kv">Lihat KV</a>
-      </div>
-    </div>
-  </section>
-
   <!-- Search Section -->
-  <section id="searchSection">
+  <section class="dashboard-main" id="searchSection">
     <div class="container">
       <h2 class="section-title" style="text-align: center; font-size: 28px; margin-bottom: 10px;">Pencarian Key Visual</h2>
       <p class="section-subtitle" style="text-align: center; color: #6b7280; margin-bottom: 30px;">Gunakan sistem pencarian kami untuk menemukan KV sesuai kebutuhan Anda.</p>
@@ -290,6 +263,26 @@
       <p>&copy; 2025 Bank KV. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+  </script>
+  <script>
+  const links = document.querySelectorAll('.nav-link');
+
+  links.forEach(link => {
+    link.addEventListener('click', function () {
+      links.forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+  </script>
 
 </body>
 </html>
