@@ -11,10 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Firebase SDK -->
-     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-
     <div class="loader-wrapper">
         <div class="loader">
             <div class="circle"></div>
@@ -52,34 +48,34 @@
         </div>
     </header>
 
-  <!-- LOGIN MODAL -->
-<div id="login-modal" class="modal hidden">
-  <div class="modal-box">
-    <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
-    <h2>Masuk ke <span style="color: #2575FC;">Bank</span><strong>KV</strong></h2>
+    <!-- LOGIN MODAL -->
+    <div id="login-modal" class="modal hidden">
+    <div class="modal-box">
+        <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+        <h2>Masuk ke <span style="color: #2575FC;">Bank</span><strong>KV</strong></h2>
 
-    <form onsubmit="event.preventDefault(); loginUser();">
-      <input type="email" id="login-email" placeholder="Email" required>
-      <input type="password" id="login-password" placeholder="Password" required>
-      <button type="submit" class="btn btn-primary">Masuk</button>
-    </form>
-  </div>
-</div>
+        <form onsubmit="event.preventDefault(); loginUser();">
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button type="submit" class="btn btn-primary">Masuk</button>
+        </form>
+    </div>
+    </div>
 
-<!-- REGISTER MODAL -->
-<div id="register-modal" class="modal hidden">
-  <div class="modal-box">
-    <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
-    <h2>Buat Akun Bank KV</h2>
-    
-    <form onsubmit="event.preventDefault(); registerUser();">
-      <input type="text" id="register-name" placeholder="Nama Lengkap" required>
-      <input type="email" id="register-email" placeholder="Email" required>
-      <input type="password"id="register-password" placeholder="Password" required>
-      <button type="submit" class="btn btn-primary">Daftar</button>
-    </form>
-  </div>
-</div>
+    <!-- REGISTER MODAL -->
+    <div id="register-modal" class="modal hidden">
+    <div class="modal-box">
+        <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
+        <h2>Buat Akun Bank KV</h2>
+        
+        <form onsubmit="event.preventDefault(); registerUser();">
+        <input type="text" id="register-name" placeholder="Nama Lengkap" required>
+        <input type="email" id="register-email" placeholder="Email" required>
+        <input type="password"id="register-password" placeholder="Password" required>
+        <button type="submit" class="btn btn-primary">Daftar</button>
+        </form>
+    </div>
+    </div>
 
     <section id="hero">
         <div class="container">
@@ -178,9 +174,6 @@
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-chart-line"></i>
-                    <div class="service-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
                     </div>
                     <h3>Analitik KV</h3>
                     <p>Pantau performa KV Anda dengan dashboard analitik lengkap</p>
@@ -255,8 +248,8 @@
                         <div class="testimonial-author">
                             <img src="images/client-1.jpg" alt="Client 1">
                             <div class="author-info">
-                                <h4>Sarah Wijaya</h4>
-                                <p>Art Director di Creative Studio</p>
+                                <h4>Ahmad Indra Adji</h4>
+                                <p>Graphic Designer at SMK TELKOM SIDOARJO</p>
                                 <div class="rating">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -277,8 +270,8 @@
                         <div class="testimonial-author">
                             <img src="images/client-2.jpg" alt="Client 2">
                             <div class="author-info">
-                                <h4>Andi Pratama</h4>
-                                <p>Freelance Designer</p>
+                                <h4>Athaya Rasya</h4>
+                                <p>Graphic Designer at SMK TELKOM SIDOARJO</p>
                                 <div class="rating">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -361,15 +354,14 @@
                         <li><a href="#">Syarat & Ketentuan</a></li>
                         <li><a href="#">Kebijakan Privasi</a></li>
                         <li><a href="#">Cookie Policy</a></li>
-                        <li><a href="#">Bantuan COVID-19</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h3 class="footer-title">Kontak</h3>
                     <ul class="footer-contact">
-                        <li><i class="fas fa-map-marker-alt"></i> Jl. Kreatif No. 123, Jakarta</li>
-                        <li><i class="fas fa-phone-alt"></i> +62 123 4567 890</li>
-                        <li><i class="fas fa-envelope"></i> hello@bankkv.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Dr. Ir. H. Soekarno No.175, Klampis Ngasem</li>
+                        <li><i class="fas fa-phone-alt"></i> +62 857-0601-6306</li>
+                        <li><i class="fas fa-envelope"></i> Admin@bankkv.com</li>
                     </ul>
                 </div>
             </div>
@@ -384,28 +376,70 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
-    <script>
-    /*=== Js Animasi Typing ===*/
-    document.addEventListener("DOMContentLoaded", () => {
-        const premiumText = document.querySelector(".typing-effect");
+    <!-- Firebase SDK -->
+     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+     <!-- Firebase Configuration + Auth Logic -->
+     <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyA3wCPXQkoIpf_sYoVNrseoTWp5heH0VAE",
+            authDomain: "bank-kv-1910f.firebaseapp.com",
+            projectId: "bank-kv-1910f",
+            storageBucket: "bank-kv-1910f.firebasestorage.app",
+            messagingSenderId: "87795172113",
+            appId: "1:87795172113:web:08b077dbfbdee9adbfc2b0",
+            measurementId: "G-84VE29GC3W"
+        };
+        firebase.initializeApp(firebaseConfig);
 
-        const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-            // Reset animasi agar bisa diputar ulang
-            premiumText.classList.remove("typing-effect");
-            void premiumText.offsetWidth; // trigger reflow
-            premiumText.classList.add("typing-effect");
+        // Fungsi Daftar
+        function registerUser() {
+            const name = document.getElementById('register-name').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+
+            if (!name || !email || !password) {
+                alert("Semua kolom harus diisi.");
+                return;
+            }
+
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    return userCredential.user.updateProfile({ displayName: name });
+                })
+                .then(() => {
+                    alert("Registrasi berhasil! Silakan login.");
+                    closeModal('register-modal');
+                    openModal('login-modal');
+                })
+                .catch((error) => {
+                    alert("Registrasi gagal: " + error.message);
+                });
         }
-        });
-    }, {
-      threshold: 0.6 // aktif saat 60% teks masuk layar
-    });
 
-    observer.observe(premiumText);
-    });
-    </script>
+        // Fungsi Login
+        function loginUser() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
 
+            if (!email || !password) {
+                alert("Email dan password harus diisi.");
+                return;
+            }
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    const redirectURL = email.includes('admin') ? "Admin/dashboard_admin.php" : "Guest/dashboard_guest.php";
+                    window.location.href = redirectURL;
+                })
+                .catch((error) => {
+                    alert("Login gagal: " + error.message);
+                });
+        }
+     </script>
+    <!---- Script tambahan lainnya ---->
+    <script src="script.js"></script>
 </body>
 </html>

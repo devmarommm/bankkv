@@ -1,3 +1,7 @@
+<?php
+include '../Admin/koneksi.php';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -121,53 +125,6 @@
       const searchBtn = document.getElementById('searchBtn');
       const searchInput = document.getElementById('searchInput');
       const resultsContainer = document.getElementById('resultsContainer');
-
-      const mockData = [
-        { nomor: 1, nama: 'KV Ramadan', kategori: 'Event', tag: 'ramadan', image: '../images/sample-1.png', kreator: 'Budi Santoso', tanggal: '2024-03-10', link: 'https://drive.google.com/folder1' },
-        { nomor: 2, nama: 'KV Promo Akhir Tahun', kategori: 'Promo', tag: 'promo', image: '../images/sample-2.png', kreator: 'Siti Aminah', tanggal: '2023-11-25', link: 'https://drive.google.com/folder2' },
-        { nomor: 3, nama: 'KV Hari Kartini', kategori: 'Event', tag: 'kartini', image: '../images/sample-3.png', kreator: 'Joko Prasetyo', tanggal: '2024-04-15', link: 'https://drive.google.com/folder3' }
-      ];
-
-      function renderResults(results) {
-        resultsContainer.innerHTML = '';
-        if (results.length === 0) {
-          resultsContainer.innerHTML = '<p>Tidak ada hasil ditemukan.</p>';
-          return;
-        }
-        results.forEach(item => {
-          const card = document.createElement('div');
-          card.className = 'search-result-card';
-          card.innerHTML = `
-            <div class="card-row"><span class="card-label">Nomor:</span><span>${item.nomor}</span></div>
-            <div class="card-row"><span class="card-label">Foto/KV:</span>
-              <div class="card-image-container"><img src="${item.image}" alt="${item.nama}"></div>
-            </div>
-            <div class="card-row"><span class="card-label">Nama:</span><span>${item.nama}</span></div>
-            <div class="card-row"><span class="card-label">Kreator:</span><span>${item.kreator}</span></div>
-            <div class="card-row"><span class="card-label">Tanggal:</span><span>${item.tanggal}</span></div>
-            <div class="card-row"><span class="card-label">Akses:</span><span><a href="${item.link}" target="_blank">Buka</a></span></div>
-          `;
-          resultsContainer.appendChild(card);
-        });
-      }
-
-      searchBtn.addEventListener('click', () => {
-        const keyword = searchInput.value.toLowerCase();
-        const selectedYear = document.getElementById('filterYear').value;
-        const selectedMonth = document.getElementById('filterMonth').value;
-
-        const filtered = mockData.filter(item => {
-          const tanggal = new Date(item.tanggal);
-          const itemYear = tanggal.getFullYear().toString();
-          const itemMonth = (tanggal.getMonth() + 1).toString().padStart(2, '0');
-          const keywordMatch = item.nama.toLowerCase().includes(keyword) || item.kategori.toLowerCase().includes(keyword) || item.tag.toLowerCase().includes(keyword);
-          const yearMatch = !selectedYear || itemYear === selectedYear;
-          const monthMatch = !selectedMonth || itemMonth === selectedMonth;
-          return keywordMatch && yearMatch && monthMatch;
-        });
-
-        renderResults(filtered);
-      });
     });
   </script>
 </head>
@@ -198,7 +155,7 @@
       <div class="intro-inner">
 
        <div class="intro-image">
-         <img src="../images/KV-illustration.png" alt="KV Illustration"/>
+         <img src="../s/KV-illustration.png" alt="KV Illustration"/>
        </div>
       <div class="intro-content">
         <h2>Selamat Datang, Guest!</h2>
@@ -216,43 +173,118 @@
       <p class="section-subtitle" style="text-align: center; color: #6b7280; margin-bottom: 30px;">Gunakan sistem pencarian kami untuk menemukan KV sesuai kebutuhan Anda.</p>
 
       <div class="search-section">
-        <div class="search-controls">
+        <form class="search-controls" method="GET">
           <div class="input-group">
-            <input type="text" id="searchInput" placeholder="🔍 Cari KV berdasarkan nama, kategori, atau tag...">
+            <input type="text" name="searchInput" placeholder="🔍 Cari berdasarkan nama folder..."
+              value="<?php echo isset($_GET['searchInput']) ? htmlspecialchars($_GET['searchInput']) : ''; ?>">
           </div>
 
           <div class="filter-group">
-            <select id="filterYear">
+            <select name="filterYear">
               <option value="">Tahun</option>
-              <option value="2025">2025</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-            </select>
-            <select id="filterMonth">
-              <option value="">Bulan</option>
-              <option value="01">Jan</option>
-              <option value="02">Feb</option>
-              <option value="03">Mar</option>
-              <option value="04">Apr</option>
-              <option value="05">Mei</option>
-              <option value="06">Jun</option>
-              <option value="07">Jul</option>
-              <option value="08">Agu</option>
-              <option value="09">Sep</option>
-              <option value="10">Okt</option>
-              <option value="11">Nov</option>
-              <option value="12">Des</option>
+              <?php
+              $selectedYear = $_GET['filterYear'] ?? '';
+              foreach (['2025', '2024', '2023'] as $year) {
+                echo '<option value="'.$year.'"'.($selectedYear == $year ? ' selected' : '').'>'.$year.'</option>';
+              }
+              ?>
             </select>
 
-            <button id="searchBtn" class="btn btn-primary">
-              <i class="fas fa-search"></i> 
-              Cari
+            <select name="filterMonth">
+              <option value="">Bulan</option>
+              <?php
+              $bulan = [
+                '01' => 'Jan', '02' => 'Feb', '03' => 'Mar', '04' => 'Apr',
+                '05' => 'Mei', '06' => 'Jun', '07' => 'Jul', '08' => 'Agu',
+                '09' => 'Sep', '10' => 'Okt', '11' => 'Nov', '12' => 'Des'
+              ];
+              $selectedMonth = $_GET['filterMonth'] ?? '';
+              foreach ($bulan as $val => $label) {
+                echo '<option value="'.$val.'"'.($selectedMonth == $val ? ' selected' : '').'>'.$label.'</option>';
+              }
+              ?>
+            </select>
+
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-search"></i> Cari
             </button>
           </div>
-        </div>
+        </form>
+
 
         <div class="results-grid" id="resultsContainer">
           <!-- Hasil pencarian akan muncul di sini -->
+          <?php
+            // Ambil nilai filter dari query string
+            $search = $_GET['searchInput'] ?? '';
+            $filterYear = $_GET['filterYear'] ?? '';
+            $filterMonth = $_GET['filterMonth'] ?? '';
+
+            $showData = !empty($search) || !empty($filterYear) || !empty($filterMonth);
+
+            if ($showData) {
+              $query = "SELECT * FROM kv_folders WHERE 1=1";
+
+              if (!empty($search)) {
+                $searchEscaped = mysqli_real_escape_string($conn, $search);
+                $query .= " AND nama LIKE '%$searchEscaped%'";
+              }
+
+              if (!empty($filterYear)) {
+                $query .= " AND YEAR(tanggal) = '$filterYear'";
+              }
+
+              if (!empty($filterMonth)) {
+                $query .= " AND MONTH(tanggal) = '$filterMonth'";
+              }
+
+              $query .= " ORDER BY tanggal DESC";
+              $result = mysqli_query($conn, $query);
+
+              if (mysqli_num_rows($result) > 0) {
+                $no = 1;
+                while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                  <div class="search-result-card">
+                    <!-- Nomor -->
+                    <div class="card-row"><span class="card-label">No:</span> <?= $no++ ?></div>
+
+                    <!-- Foto KV -->
+                    <?php if (!empty($row['image'])): ?>
+                      <div class="card-image-container">
+                        <img src="../Admin/uploads/<?= htmlspecialchars($row['image']) ?>" alt="Cover KV" style="max-height:150px; object-fit:cover; width:100%; border-radius:10px; border:1px solid #e5e7eb;">
+                      </div>
+                    <?php endif; ?>
+
+                    <!-- Nama -->
+                    <div class="card-row"><span class="card-label">Nama:</span> <?= htmlspecialchars($row['nama']) ?></div>
+
+                    <!-- Kategori -->
+                    <div class="card-row"><span class="card-label">Kategori:</span> <?= htmlspecialchars($row['kategori']) ?></div>
+
+                    <!-- Tag -->
+                    <div class="card-row"><span class="card-label">Tag:</span> <?= htmlspecialchars($row['tag']) ?></div>
+
+                    <!-- Kreator -->
+                    <div class="card-row"><span class="card-label">Kreator:</span> <?= htmlspecialchars($row['kreator']) ?></div>
+
+                    <!-- Tanggal -->
+                    <div class="card-row"><span class="card-label">Tanggal:</span> <?= htmlspecialchars($row['tanggal']) ?></div>
+
+                    <!-- Link -->
+                    <div class="card-row"><span class="card-label">Link:</span>
+                      <a href="<?= htmlspecialchars($row['link']) ?>" target="_blank">Lihat KV</a>
+                    </div>
+                  </div>
+                <?php
+                }
+              } else {
+                echo '<p class="no-results">Tidak ada folder KV ditemukan sesuai filter.</p>';
+              }
+            } else {
+              echo '<p class="info">Silakan gunakan fitur pencarian atau filter untuk melihat data KV.</p>';
+            }
+          ?>
         </div>
       </div>
     </div>
@@ -265,6 +297,7 @@
   </footer>
 
   <script>
+    // Hamburger dashboard guest
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
 
@@ -272,16 +305,15 @@
       hamburger.classList.toggle('active');
       navMenu.classList.toggle('active');
     });
-  </script>
-  <script>
-  const links = document.querySelectorAll('.nav-link');
+    // Navigasi dashboard guest
+    const links = document.querySelectorAll('.nav-link');
 
-  links.forEach(link => {
-    link.addEventListener('click', function () {
-      links.forEach(l => l.classList.remove('active'));
-      this.classList.add('active');
+    links.forEach(link => {
+      link.addEventListener('click', function () {
+        links.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      });
     });
-  });
   </script>
 
 </body>

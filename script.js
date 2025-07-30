@@ -47,52 +47,6 @@ function closeModal(id) {
     document.getElementById(id).classList.add("hidden");
 }
 
-// Fungsi Login
-function loginUser() {
-    const email = document.getElementById('login-email').value.trim();
-    const password = document.getElementById('login-password').value;
-
-    if (!email || !password) {
-        alert("Email dan password harus diisi.");
-        return;
-    }
-
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            const redirectURL = email.includes('admin') ? "Admin/dashboard_admin.html" : "Guest/dashboard_guest.html";
-            window.location.href = redirectURL;
-        })
-        .catch((error) => {
-            alert("Login gagal: " + error.message);
-        });
-}
-
-// Fungsi Daftar
-function registerUser() {
-    const name = document.getElementById('register-name').value.trim();
-    const email = document.getElementById('register-email').value.trim();
-    const password = document.getElementById('register-password').value;
-
-    if (!name || !email || !password) {
-        alert("Semua kolom harus diisi.");
-        return;
-    }
-
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            return userCredential.user.updateProfile({ displayName: name });
-        })
-        .then(() => {
-            alert("Registrasi berhasil! Silakan login.");
-            closeModal('register-modal');
-            openModal('login-modal');
-        })
-        .catch((error) => {
-            alert("Registrasi gagal: " + error.message);
-        });
-}
-
 // Simulasi upload KV
 function handleKVUpload(file) {
     console.log('File uploaded:', file.name);
@@ -102,17 +56,6 @@ function handleKVUpload(file) {
         pointsEarned: 10
     });
 }
-
-// Firebase config
-const firebaseConfig = {
-    apiKey: "AIzaSyA3wCPXQkoIpf_sYoVNrseoTWp5heH0VAE",
-    authDomain: "bank-kv-1910f.firebaseapp.com",
-    projectId: "bank-kv-1910f",
-    storageBucket: "bank-kv-1910f.firebasestorage.app",
-    messagingSenderId: "87795172113",
-    appId: "1:87795172113:web:08b077dbfbdee9adbfc2b0",
-    measurementId: "G-84VE29GC3W"
-};
 
 // Mobile animasi menu
 document.querySelectorAll('.nav-links li a').forEach(link => {
@@ -142,4 +85,41 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-firebase.initializeApp(firebaseConfig);
+// Drag and Drop Dashboard_Admin
+const dropArea = document.getElementById('drop-area');
+const imageInput = document.getElementById('imageInput');
+
+dropArea.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropArea.classList.add('highlight');
+});
+
+dropArea.addEventListener('dragleave', () => {
+  dropArea.classList.remove('highlight');
+});
+
+dropArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  imageInput.files = e.dataTransfer.files;
+  dropArea.classList.remove('highlight');
+});
+
+/*=== Js Animasi Typing ===*/
+document.addEventListener("DOMContentLoaded", () => {
+    const premiumText = document.querySelector(".typing-effect");
+
+    const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+        // Reset animasi agar bisa diputar ulang
+        premiumText.classList.remove("typing-effect");
+        void premiumText.offsetWidth; // trigger reflow
+        premiumText.classList.add("typing-effect");
+    }
+    });
+}, {
+    threshold: 0.6 // aktif saat 60% teks masuk layar
+});
+
+observer.observe(premiumText);
+});
