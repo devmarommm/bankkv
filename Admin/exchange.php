@@ -18,7 +18,7 @@
     </div>
     <nav>
       <ul class="nav-links">
-        <li><a href="index.html" class="nav-link">Beranda</a></li>
+        <li><a href="index.php" class="nav-link">Beranda</a></li>
         <li><a href="upload.html" class="nav-link">Penyimpanan KV</a></li>
         <li><a href="exchange.html" class="nav-link active">Pertukaran KV</a></li>
       </ul>

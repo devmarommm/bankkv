@@ -6,17 +6,54 @@
   <title>Analitik KV - Bank KV</title>
   <link rel="stylesheet" href="../style.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .analytics-container {
+      display: grid;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .card:hover { transform: translateY(-5px); }
+    .card h3 { margin: 0.5rem 0; font-size: 1.8rem; color: #6C5CE7; }
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+    canvas { background: #fff; border-radius: 1rem; padding: 1rem; }
+
+    #categoryChart {
+      max-width: 400px;
+      max-height: 400px;
+      margin: 0 auto;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      align-items: center;
+      justify-items: center;
+    }
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+    }
+  </style>
 </head>
 <body>
-  <!-- Loader -->
-  <div class="loader-wrapper">
-    <div class="loader">
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-    </div>
-  </div>
-
   <!-- Header -->
   <header class="scrolled">
     <div class="container">
@@ -34,26 +71,42 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section id="hero">
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title">Dashboard <span>Analitik KV</span></h1>
-        <p class="hero-subtitle">Pantau performa Key Visual Anda melalui data penggunaan, popularitas, dan interaksi dalam satu tampilan intuitif.</p>
+        <p class="hero-subtitle">Pantau performa Key Visual Anda melalui data penggunaan, popularitas, dan interaksi.</p>
       </div>
     </div>
   </section>
 
-  <!-- Analytics Section -->
+  <!-- Analytics -->
   <section>
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Statistik Penggunaan KV</h2>
-        <p class="section-subtitle">Dapatkan wawasan penting mengenai performa dan efektivitas setiap Key Visual.</p>
+    <div class="container analytics-container">
+      
+      <!-- Summary Cards -->
+      <div class="summary-cards">
+        <div class="card">
+          <p>Total KV</p>
+          <h3 id="totalViews">435</h3>
+        </div>
+        <div class="card">
+          <p>KV Terpopuler</p>
+          <h3 id="topKV">KV Branding A</h3>
+        </div>
+        <div class="card">
+          <p>Kategori Dominan</p>
+          <h3 id="topCategory">Promo</h3>
+        </div>
       </div>
 
-      <div style="max-width: 800px; margin: 0 auto">
-        <canvas id="kvChart"></canvas>
+      <!-- Charts -->
+      <div class="charts">
+        <canvas id="viewsChart"></canvas>
+          <div style="width: 100%; max-width: 400px; height: 400px;">
+            <canvas id="categoryChart"></canvas>
+          </div>
       </div>
     </div>
   </section>
@@ -64,39 +117,88 @@
     </div>
   </footer>
 
-  <script src="../script.js" defer></script>
   <script>
-    window.addEventListener("load", function () {
-      const loader = document.querySelector(".loader-wrapper");
-      if (loader) loader.style.display = "none";
-    });
-
-    // Chart setup
-    const ctx = document.getElementById('kvChart').getContext('2d');
-    const kvChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['KV Branding A', 'KV Promo B', 'KV Event C', 'KV Seasonal D'],
-        datasets: [{
-          label: 'Jumlah Download',
-          data: [120, 95, 140, 80],
-          backgroundColor: ['#6C5CE7', '#00CEFF', '#FF7675', '#636E72']
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Data Interaksi Key Visual Bulan Ini'
-          }
+    // Tarik data dari database lewat PHP
+    fetch("get_analytics.php")
+      .then(res => res.json())
+      .then(kvFolders => {
+        if (kvFolders.error) {
+          console.error(kvFolders.error);
+          return;
         }
-      }
-    });
+
+        // === Hitung summary ===
+        const totalFolders = kvFolders.length;
+        const latestFolder = kvFolders.reduce((a, b) => 
+          new Date(a.tanggal_upload) > new Date(b.tanggal_upload) ? a : b
+        );
+
+        // Hitung per bulan (YYYY-MM)
+        const monthlyData = {};
+        kvFolders.forEach(kv => {
+          const date = new Date(kv.tanggal_upload);
+          const monthYear = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
+          monthlyData[monthYear] = (monthlyData[monthYear] || 0) + 1;
+        });
+
+        const topMonth = Object.keys(monthlyData).reduce((a, b) =>
+          monthlyData[a] > monthlyData[b] ? a : b
+        );
+
+        // === Update summary cards ===
+        document.getElementById("totalViews").innerText = totalFolders;
+        document.getElementById("topKV").innerText = latestFolder.nama_folder;
+        document.getElementById("topCategory").innerText = topMonth;
+
+        // === Chart Folder per Bulan ===
+        const labels = Object.keys(monthlyData).sort();
+        const values = labels.map(key => monthlyData[key]);
+
+        new Chart(document.getElementById('viewsChart'), {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Folder KV per Bulan',
+              data: values,
+              borderColor: '#6C5CE7',
+              backgroundColor: '#6C5CE7',
+              fill: false,
+              tension: 0.3
+            }]
+          },
+          options: { 
+            responsive: true,
+            plugins:{ 
+              title:{display:true, text:'Perkembangan Folder KV Bulanan'}
+            }
+          }
+        });
+
+        // === Chart per Kategori ===
+        const categories = {};
+        kvFolders.forEach(kv => { 
+          categories[kv.kategori] = (categories[kv.kategori] || 0) + 1; 
+        });
+
+        new Chart(document.getElementById('categoryChart'), {
+          type: 'pie',
+          data: {
+            labels: Object.keys(categories),
+            datasets: [{
+              data: Object.values(categories),
+              backgroundColor: ['#6C5CE7','#00CEFF','#FF7675','#636E72']
+            }]
+          },
+          options: { 
+            responsive: true,
+            plugins:{ 
+              title:{display:true, text:'Kategori Folder KV'}
+            }
+          }
+        });
+      })
+      .catch(err => console.error("Error fetching data:", err));
   </script>
 </body>
 </html>
