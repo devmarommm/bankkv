@@ -103,23 +103,3 @@ dropArea.addEventListener('drop', (e) => {
   imageInput.files = e.dataTransfer.files;
   dropArea.classList.remove('highlight');
 });
-
-/*=== Js Animasi Typing ===*/
-document.addEventListener("DOMContentLoaded", () => {
-    const premiumText = document.querySelector(".typing-effect");
-
-    const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-        // Reset animasi agar bisa diputar ulang
-        premiumText.classList.remove("typing-effect");
-        void premiumText.offsetWidth; // trigger reflow
-        premiumText.classList.add("typing-effect");
-    }
-    });
-}, {
-    threshold: 0.6 // aktif saat 60% teks masuk layar
-});
-
-observer.observe(premiumText);
-});

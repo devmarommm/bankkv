@@ -64,7 +64,6 @@
       <nav>
         <ul class="nav-links">
           <li><a href="dashboard_admin.php" class="nav-link">Beranda</a></li>
-          <li><a href="exchange.html" class="nav-link">Pertukaran KV</a></li>
           <li><a href="analitik.html" class="nav-link active">Analitik KV</a></li>
         </ul>
       </nav>
@@ -86,19 +85,22 @@
     <div class="container analytics-container">
       
       <!-- Summary Cards -->
-      <div class="summary-cards">
-        <div class="card">
-          <p>Total KV</p>
-          <h3 id="totalViews">435</h3>
-        </div>
-        <div class="card">
-          <p>KV Terpopuler</p>
-          <h3 id="topKV">KV Branding A</h3>
-        </div>
-        <div class="card">
-          <p>Kategori Dominan</p>
-          <h3 id="topCategory">Promo</h3>
-        </div>
+     <div class="card">
+        <h3>Total KV</h3>
+        <p id="total-kv">0</p>
+      </div>
+
+      <div class="card">
+        <h3>KV Populer</h3>
+        <p>Kategori: <span id="kv-populer-kat">-</span></p>
+        <p>Tag: <span id="kv-populer-tag">-</span></p>
+        <p>Views: <span id="kv-populer-views">-</span></p>
+      </div>
+
+      <div class="card">
+        <h3>Kategori Dominan</h3>
+        <p><span id="kat-dominan-nama">-</span></p>
+        <p><span id="kat-dominan-persen">-</span></p>
       </div>
 
       <!-- Charts -->
@@ -118,87 +120,70 @@
   </footer>
 
   <script>
-    // Tarik data dari database lewat PHP
     fetch("get_analytics.php")
       .then(res => res.json())
-      .then(kvFolders => {
-        if (kvFolders.error) {
-          console.error(kvFolders.error);
-          return;
-        }
+      .then(data => {
+        console.log(data);
 
-        // === Hitung summary ===
-        const totalFolders = kvFolders.length;
-        const latestFolder = kvFolders.reduce((a, b) => 
-          new Date(a.tanggal_upload) > new Date(b.tanggal_upload) ? a : b
-        );
+        // === Total KV ===
+        document.getElementById("total-kv").innerText = data.total_kv;
 
-        // Hitung per bulan (YYYY-MM)
+        // === KV Populer ===
+        document.getElementById("kv-populer-kat").innerText = data.kv_populer.kategori;
+        document.getElementById("kv-populer-tag").innerText = data.kv_populer.tag;
+        document.getElementById("kv-populer-views").innerText = data.kv_populer.views + " views";
+
+        // === Kategori Dominan ===
+        document.getElementById("kat-dominan-nama").innerText = data.kategori_dominan.kategori;
+        document.getElementById("kat-dominan-persen").innerText = data.kategori_dominan.persen + "% dari KV bulan ini";
+
+        // === Grafik Perkembangan KV ===
         const monthlyData = {};
-        kvFolders.forEach(kv => {
-          const date = new Date(kv.tanggal_upload);
-          const monthYear = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
-          monthlyData[monthYear] = (monthlyData[monthYear] || 0) + 1;
+        data.data_kv.forEach(kv => {
+          const date = new Date(kv.tanggal);
+          const month = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
+          monthlyData[month] = (monthlyData[month] || 0) + 1;
         });
-
-        const topMonth = Object.keys(monthlyData).reduce((a, b) =>
-          monthlyData[a] > monthlyData[b] ? a : b
-        );
-
-        // === Update summary cards ===
-        document.getElementById("totalViews").innerText = totalFolders;
-        document.getElementById("topKV").innerText = latestFolder.nama_folder;
-        document.getElementById("topCategory").innerText = topMonth;
-
-        // === Chart Folder per Bulan ===
-        const labels = Object.keys(monthlyData).sort();
-        const values = labels.map(key => monthlyData[key]);
+        const labels = Object.keys(monthlyData);
+        const values = Object.values(monthlyData);
 
         new Chart(document.getElementById('viewsChart'), {
           type: 'line',
           data: {
-            labels,
+            labels: labels,
             datasets: [{
-              label: 'Folder KV per Bulan',
+              label: 'Jumlah KV per Bulan',
               data: values,
               borderColor: '#6C5CE7',
               backgroundColor: '#6C5CE7',
-              fill: false,
-              tension: 0.3
+              tension: 0.3,
+              fill: false
             }]
           },
-          options: { 
+          options: {
             responsive: true,
-            plugins:{ 
-              title:{display:true, text:'Perkembangan Folder KV Bulanan'}
-            }
+            plugins: { title: { display: true, text: 'Perkembangan KV per Bulan' } }
           }
         });
 
-        // === Chart per Kategori ===
-        const categories = {};
-        kvFolders.forEach(kv => { 
-          categories[kv.kategori] = (categories[kv.kategori] || 0) + 1; 
-        });
-
+        // === Grafik Kategori Dominan ===
         new Chart(document.getElementById('categoryChart'), {
           type: 'pie',
           data: {
-            labels: Object.keys(categories),
+            labels: Object.keys(data.kategori_data),
             datasets: [{
-              data: Object.values(categories),
-              backgroundColor: ['#6C5CE7','#00CEFF','#FF7675','#636E72']
+              data: Object.values(data.kategori_data),
+              backgroundColor: ['#6C5CE7','#00CEFF','#FF7675','#636E72','#fdcb6e','#0984e3','#fab1a0']
             }]
           },
-          options: { 
+          options: {
             responsive: true,
-            plugins:{ 
-              title:{display:true, text:'Kategori Folder KV'}
-            }
+            plugins: { title: { display: true, text: 'Distribusi Kategori KV Bulan Ini' } }
           }
         });
       })
-      .catch(err => console.error("Error fetching data:", err));
+      .catch(err => console.error("Fetch error:", err));
   </script>
+
 </body>
 </html>

@@ -33,10 +33,10 @@ function logoutUser() {
             setTimeout(() => { unsub(); resolve(); }, 2000); // fallback
         });
         waitForSignout.then(() => {
-            window.location.href = "../index.php";
+            window.location.href = "index.php";
         });
     }).catch(err => {
         console.error("Logout error:", err);
-        window.location.href = "../index.php";
+        window.location.href = "index.php";
     });
 }

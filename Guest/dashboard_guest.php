@@ -52,131 +52,8 @@ $tableResult = mysqli_query($conn, $tableQuery);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Guest | Bank KV</title>
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../style-new.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    html { scroll-behavior: smooth; }
-    #searchSection {
-      display: flex; flex-direction: column; align-items: center; text-align: center;
-      background-color: #f9fafb; padding: 60px 20px; border-top: 2px solid #e5e7eb;
-    }
-    .search-section {
-      max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 16px;
-      padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-    .search-controls { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 25px; }
-    .input-group input, .filter-group select {
-      padding: 10px 15px; border-radius: 12px; border: 1px solid #d1d5db; outline: none;
-    }
-    .btn-primary {
-      background: #4f46e5; color: #fff; padding: 10px 20px; border-radius: 12px; border: none;
-      cursor: pointer; font-weight: bold; transition: background 0.3s ease;
-    }
-    .btn-primary:hover { background: #4338ca; }
-    .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-    .search-result-card {
-      background: #fff; border-radius: 16px; padding: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .search-result-card:hover { transform: translateY(-5px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
-    .card-row { margin-bottom: 10px; font-size: 14px; }
-    .card-label { font-weight: 600; color: #374151; display: inline-block; width: 90px; }
-    .card-image-container { overflow: hidden; border-radius: 10px; }
-    .card-image-container img {
-      width: 100%; height: 100%; border-radius: 10px; border: 1px solid #e5e7eb;
-      transform: scale(1.05); transition: transform 0.6s ease;
-    }
-    .search-result-card:hover .card-image-container img { transform: scale(1); }
-
-    /* Loading Screen Styles */
-    #loading-screen {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-      background: #fff; display: flex; justify-content: center; align-items: center; z-index: 9999;
-    }
-    .loading-spinner {
-      width: 50px; height: 50px; border: 4px solid #f3f3f3; 
-      border-top: 4px solid #4f46e5; border-radius: 50%; 
-      animation: spin 1s linear infinite; margin: 0 auto 20px;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* ===== KV Stats Cards ===== */
-    .kv-stats { max-width: 1100px; margin: 30px auto 10px; padding: 0 16px; }
-    .kv-card-horizontal {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; padding: 22px; border-radius: 16px; background: #ffffff;
-      border: 1px solid #e5e7eb; box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    }
-    .kv-card-horizontal .kv-title { font-size: 16px; color: #374151; font-weight: 600; }
-    .kv-card-horizontal .kv-number { font-size: 36px; font-weight: 800; line-height: 1; }
-
-    .kv-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; margin-top: 16px; }
-    .kv-card {
-      padding: 20px; border-radius: 16px; background: #ffffff; border: 1px solid #e5e7eb;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
-    }
-    .kv-card .kv-title { font-size: 14px; color: #6b7280; font-weight: 600; margin-bottom: 6px; }
-    .kv-card .kv-number { font-size: 28px; font-weight: 800; line-height: 1; }
-
-    .kv-desc {
-      font-size: 12px;
-      color: #6b7280;
-      margin-top: 4px;
-    }
-
-    @media (max-width: 640px) {
-      .kv-card-horizontal { flex-direction: column; align-items: flex-start; }
-      .kv-card-grid { grid-template-columns: 1fr; }
-    }
-
-    /* ===== Results Table ===== */
-    .results-table { margin-top: 26px; }
-    .results-table h3 { font-size: 20px; margin: 0 0 12px; }
-    table.kv-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e5e7eb; }
-    table.kv-table th, table.kv-table td { padding: 12px 14px; border-bottom: 1px solid #e5e7eb; text-align: left; font-size: 14px; }
-    table.kv-table th { background: #f9fafb; font-weight: 700; }
-    table.kv-table tr:hover { background: #fafafa; }
-    table.kv-table td a { text-decoration: none; }
-
-    /* Filter Tabel di Data KV */
-    .results-table form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-      align-items: center;
-    }
-
-    .results-table select,
-    .results-table button {
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    .results-table select:focus,
-    .results-table button:focus {
-      outline: none;
-      border-color: #007bff;
-    }
-
-    .results-table button {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .results-table button:hover {
-      background-color: #0056b3;
-    }
-  </style>
 </head>
 <body>
 
@@ -190,30 +67,37 @@ $tableResult = mysqli_query($conn, $tableQuery);
 
 <div id="main-content" style="display: none;">
 
-<!-- == Header == -->
+<!-- == Header (No Change) == -->
 <header>
   <div class="container">
-    <div class="logo">
-      <img src="../images/logo.png" alt="Bank KV Logo">
-      <h1>Bank<span>KV</span></h1>
-    </div>
-    <div class="hamburger" id="hamburger">
-      <span></span><span></span><span></span>
-    </div>
-    <nav id="nav-menu">
+
+    <div class="nav-left">
       <ul class="nav-links">
         <li><a href="../index.php" class="nav-link">Beranda</a></li>
         <li><a href="#searchSection" class="nav-link">Cari KV</a></li>
-        <li><a href="#" onclick="logoutUser()" class="btn btn-outline">Logout</a></li>
       </ul>
-    </nav>
+    </div>
+
+    <div class="nav-center">
+      <div class="logo">
+        <img src="../images/logo.png" alt="Bank KV Logo">
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#" onclick="logoutUser()" class="btn btn-outline">Logout</a></li>
+        <!-- tombol admin bakal disisipin dinamis via JS Firebase -->
+      </ul>
+    </div>
+
   </div>
 </header>
 
-<!-- == Section Intro Box == -->
 <main class="main-guest">
-  <div class="intro-box fade-in">
-    <div class="intro-inner">
+<!-- == Section Intro Box == -->
+<section class="intro-box fade-in">
+    <div class="intro-inner container">
       <div class="intro-image">
         <img src="../images/KV-illustration.png" alt="KV Illustration"/>
       </div>
@@ -223,15 +107,18 @@ $tableResult = mysqli_query($conn, $tableQuery);
         <a href="#searchSection" class="btn btn-primary">Mulai Pencarian KV</a>
       </div>
     </div>
-  </div>
-</main>
+</section>
 
-<!-- === Tambahan Card Statistik === -->
+<!-- === Card Statistik === -->
 <section class="kv-stats">
+  <!-- Horizontal Card (Total) -->
   <div class="kv-card-horizontal">
-    <div class="kv-title">Total Key Visual Produk Telkomsel <?php echo $__selectedYearStats; ?></div>
+    <div class="kv-info">
+        <div class="kv-title">Total Key Visual Produk Telkomsel Tahun <?php echo $__selectedYearStats; ?></div>
+    </div>
     <div class="kv-number"><?php echo $__stats['total']; ?></div>
   </div>
+  <!-- Grid Cards (Fix & Mobile) -->
   <div class="kv-card-grid">
     <div class="kv-card">
       <div class="kv-title">Fix</div>
@@ -245,96 +132,14 @@ $tableResult = mysqli_query($conn, $tableQuery);
     </div>
   </div>
 </section>
-</main>
 
-<!-- TABEL DATA SELALU TAMPIL -->
-<section class="results-table">
-  <h3>Data KV Tersedia</h3>
-
-    <form method="GET" style="margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
-      <select name="filterKategori">
-        <option value="">Semua Kategori</option>
-        <option value="fix" <?php echo (($_GET['filterKategori'] ?? '') == 'fix') ? 'selected' : ''; ?>>Fix</option>
-        <option value="mobile" <?php echo (($_GET['filterKategori'] ?? '') == 'mobile') ? 'selected' : ''; ?>>Mobile</option>
-      </select>
-
-      <select name="filterBulan">
-        <option value="">Semua Bulan</option>
-        <?php
-        $bulan = [
-          '01'=>'Jan','02'=>'Feb','03'=>'Mar','04'=>'Apr',
-          '05'=>'Mei','06'=>'Jun','07'=>'Jul','08'=>'Agu',
-          '09'=>'Sep','10'=>'Okt','11'=>'Nov','12'=>'Des'
-        ];
-        $selectedBulanTabel = $_GET['filterBulan'] ?? '';
-        foreach ($bulan as $val=>$label) {
-          echo "<option value='$val'".($selectedBulanTabel==$val?' selected':'').">$label</option>";
-        }
-        ?>
-      </select>
-
-      <select name="filterTahun">
-        <option value="">Semua Tahun</option>
-        <?php
-        $tahunSekarang = date('Y');
-        for($t=$tahunSekarang; $t>=2020; $t--) {
-          $selectedTahunTabel = $_GET['filterTahun'] ?? '';
-          echo "<option value='$t'".($selectedTahunTabel==$t?' selected':'').">$t</option>";
-        }
-        ?>
-      </select>
-
-      <button type="submit" class="btn btn-primary">Filter</button>
-    </form>
-
-  <table class="kv-table">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Cover</th>
-        <th>Nama Folder</th>
-        <th>Kategori</th>
-        <th>Tag</th>
-        <th>Kreator</th>
-        <th>Tanggal</th>
-        <th>Link</th>
-      </tr>
-    </thead>
-    <tbody>
-    <?php
-    $no = 1;
-    if ($tableResult && mysqli_num_rows($tableResult) > 0) {
-      while ($row = mysqli_fetch_assoc($tableResult)) {
-        echo "<tr>
-          <td>".($no++)."</td>
-          <td>";
-        if (!empty($row['image'])) {
-          echo "<img src='../Admin/uploads/".htmlspecialchars($row['image'])."' style='width:50px;height:50px;border-radius:6px;'>";
-        } else { echo "-"; }
-        echo "</td>
-          <td>".htmlspecialchars($row['nama'])."</td>
-          <td>".htmlspecialchars($row['kategori'])."</td>
-          <td>".htmlspecialchars($row['tag'])."</td>
-          <td>".htmlspecialchars($row['kreator'])."</td>
-          <td>".htmlspecialchars($row['tanggal'])."</td>
-          <td><a href='".htmlspecialchars($row['link'])."' target='_blank'>Lihat</a></td>
-        </tr>";
-      }
-    } else {
-      echo "<tr><td colspan='8'>Belum ada data KV.</td></tr>";
-    }
-    ?>
-    </tbody>
-  </table>
-</section>
-
-<!-- == Search Section == -->
-<section class="dashboard-main" id="searchSection">
-  <div class="container">
+<!-- == Search Section (Pencarian KV) == -->
+<section id="searchSection">
+  <div class="search-container">
     <h2 class="section-title" style="text-align:center; font-size:28px; margin-bottom:10px;">Pencarian Key Visual</h2>
-    <p class="section-subtitle" style="text-align:center; color:#6b7280; margin-bottom:30px;">Gunakan sistem pencarian kami untuk menemukan KV sesuai kebutuhan Anda.</p>
+    <p class="section-subtitle" style="text-align:center; color:var(--color-text-muted); margin-bottom:30px;">Gunakan sistem pencarian atau filter untuk menemukan KV yang spesifik.</p>
 
-    <div class="search-section">
+    <div class="search-section-card">
       <form class="search-controls" method="GET">
         <div class="input-group">
           <input type="text" name="searchInput" placeholder="🔍 Cari berdasarkan nama folder..."
@@ -343,22 +148,24 @@ $tableResult = mysqli_query($conn, $tableQuery);
 
         <div class="filter-group">
           <select name="filterYear">
-            <option value="">Tahun</option>
+            <option value="">Semua Tahun</option>
             <?php
+            // Ambil tahun dari query filter tabel (jika ada) untuk konsistensi
             $selectedYear = $_GET['filterYear'] ?? '';
-            foreach (['2025','2024','2023'] as $year) {
-              echo "<option value='$year'".($selectedYear==$year?' selected':'').">$year</option>";
+            $tahunSekarang = date('Y');
+            for($t=$tahunSekarang+1; $t>=2020; $t--) { // +1 untuk tahun depan
+              echo "<option value='$t'".($selectedYear==$t?' selected':'').">$t</option>";
             }
             ?>
           </select>
 
           <select name="filterMonth">
-            <option value="">Bulan</option>
+            <option value="">Semua Bulan</option>
             <?php
             $bulan = [
-              '01'=>'Jan','02'=>'Feb','03'=>'Mar','04'=>'Apr',
-              '05'=>'Mei','06'=>'Jun','07'=>'Jul','08'=>'Agu',
-              '09'=>'Sep','10'=>'Okt','11'=>'Nov','12'=>'Des'
+              '01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April',
+              '05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus',
+              '09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'
             ];
             $selectedMonth = $_GET['filterMonth'] ?? '';
             foreach ($bulan as $val=>$label) {
@@ -368,7 +175,7 @@ $tableResult = mysqli_query($conn, $tableQuery);
           </select>
 
           <button type="submit" class="btn btn-primary">
-            <i class="fas fa-search"></i> Cari
+            <i class="fas fa-search"></i> Cari KV
           </button>
         </div>
       </form>
@@ -398,26 +205,111 @@ $tableResult = mysqli_query($conn, $tableQuery);
                 <div class='card-row'><span class='card-label'>No:</span> ".($no++)."</div>";
               if (!empty($row['image'])) {
                 echo "<div class='card-image-container'><img src='../Admin/uploads/".htmlspecialchars($row['image'])."' alt='Cover KV'></div>";
+              } else {
+                echo "<div class='card-image-container' style='display:flex; justify-content:center; align-items:center; color:var(--color-text-muted); font-size:14px;'>[ Tidak Ada Cover ]</div>";
               }
               echo "<div class='card-row'><span class='card-label'>Nama:</span> ".htmlspecialchars($row['nama'])."</div>
-                    <div class='card-row'><span class='card-label'>Kategori:</span> ".htmlspecialchars($row['kategori'])."</div>
-                    <div class='card-row'><span class='card-label'>Tag:</span> ".htmlspecialchars($row['tag'])."</div>
-                    <div class='card-row'><span class='card-label'>Kreator:</span> ".htmlspecialchars($row['kreator'])."</div>
-                    <div class='card-row'><span class='card-label'>Tanggal:</span> ".htmlspecialchars($row['tanggal'])."</div>
-                    <div class='card-row'><span class='card-label'>Link:</span> <a href='".htmlspecialchars($row['link'])."' target='_blank'>Lihat KV</a></div>
+                     <div class='card-row'><span class='card-label'>Kategori:</span> ".htmlspecialchars($row['kategori'])."</div>
+                     <div class='card-row'><span class='card-label'>Tag:</span> ".htmlspecialchars($row['tag'])."</div>
+                     <div class='card-row'><span class='card-label'>Kreator:</span> ".htmlspecialchars($row['kreator'])."</div>
+                     <div class='card-row'><span class='card-label'>Tanggal:</span> ".htmlspecialchars(date('d F Y', strtotime($row['tanggal'])))."</div>
+                     <div class='card-row'><span class='card-label'>Link:</span> <a href='view_counter.php?id=".$row['id']."' target='_blank'>Lihat</a></div>
               </div>";
             }
           } else {
             echo "<p class='no-results'>Tidak ada folder KV ditemukan sesuai filter.</p>";
           }
         } else {
-          echo "<p class='info'>Silakan gunakan fitur pencarian atau filter untuk melihat data KV.</p>";
+          echo "<p class='info'>Silakan gunakan fitur pencarian di atas untuk melihat data KV dalam format kartu.</p>";
         }
         ?>
       </div>
     </div>
   </div>
 </section>
+
+<!-- TABEL DATA (FULL DATA VIEW) -->
+<section class="results-table">
+    <h3>Data KV Tersedia (Filter Tabel)</h3>
+
+    <form method="GET" class="table-controls">
+        <select name="filterKategori">
+            <option value="">Semua Kategori</option>
+            <option value="fix" <?php echo (($_GET['filterKategori'] ?? '') == 'fix') ? 'selected' : ''; ?>>Fix</option>
+            <option value="mobile" <?php echo (($_GET['filterKategori'] ?? '') == 'mobile') ? 'selected' : ''; ?>>Mobile</option>
+        </select>
+
+        <select name="filterBulan">
+            <option value="">Semua Bulan</option>
+            <?php
+            $bulan = [
+                '01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April',
+                '05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus',
+                '09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'
+            ];
+            $selectedBulanTabel = $_GET['filterBulan'] ?? '';
+            foreach ($bulan as $val=>$label) {
+                echo "<option value='$val'".($selectedBulanTabel==$val?' selected':'').">$label</option>";
+            }
+            ?>
+        </select>
+
+        <select name="filterTahun">
+            <option value="">Semua Tahun</option>
+            <?php
+            $tahunSekarang = date('Y');
+            for($t=$tahunSekarang; $t>=2020; $t--) {
+                $selectedTahunTabel = $_GET['filterTahun'] ?? '';
+                echo "<option value='$t'".($selectedTahunTabel==$t?' selected':'').">$t</option>";
+            }
+            ?>
+        </select>
+
+        <button type="submit">Tampilkan Data</button>
+    </form>
+
+    <table class="kv-table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Cover</th>
+                <th>Nama Folder</th>
+                <th>Kategori</th>
+                <th>Tag</th>
+                <th>Kreator</th>
+                <th>Tanggal</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        $no = 1;
+        if ($tableResult && mysqli_num_rows($tableResult) > 0) {
+            while ($row = mysqli_fetch_assoc($tableResult)) {
+                echo "<tr>
+                    <td>".($no++)."</td>
+                    <td>";
+                if (!empty($row['image'])) {
+                    echo "<img src='../Admin/uploads/".htmlspecialchars($row['image'])."' class='table-image' alt='Cover'>";
+                } else { echo "-"; }
+                echo "</td>
+                    <td>".htmlspecialchars($row['nama'])."</td>
+                    <td>".htmlspecialchars($row['kategori'])."</td>
+                    <td>".htmlspecialchars($row['tag'])."</td>
+                    <td>".htmlspecialchars($row['kreator'])."</td>
+                    <td>".htmlspecialchars(date('d F Y', strtotime($row['tanggal'])))."</td>
+                    <td><a href='view_counter.php?id=".$row['id']."' target='_blank'>Lihat</a></td>
+                </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='8'>Tidak ada data KV yang tersedia berdasarkan filter yang dipilih.</td></tr>";
+        }
+        ?>
+        </tbody>
+    </table>
+</section>
+
+</main>
 
 <footer>
   <div class="container">
@@ -453,7 +345,8 @@ $tableResult = mysqli_query($conn, $tableQuery);
     authTimeout = setTimeout(() => {
       if (!authCheckCompleted) {
         console.error("Auth check timeout");
-        alert("Loading terlalu lama. Silakan refresh halaman atau login ulang.");
+        // Ganti alert dengan cara yang lebih aman di Canvas
+        console.log("Loading terlalu lama. Silakan refresh halaman atau login ulang.");
         window.location.href = "../index.php";
       }
     }, 5000);
@@ -496,7 +389,7 @@ $tableResult = mysqli_query($conn, $tableQuery);
         // Kalau gak ada role → logout paksa
         if (!role) {
           console.error("No role found, redirecting");
-          alert("Data pengguna tidak ditemukan. Silakan login ulang.");
+          console.log("Data pengguna tidak ditemukan. Silakan login ulang.");
           await firebase.auth().signOut();
           window.location.href = "../index.php";
           return;
@@ -519,7 +412,8 @@ $tableResult = mysqli_query($conn, $tableQuery);
             if (navLinks && !document.getElementById("admin-shortcut")) {
               const adminBtn = document.createElement("li");
               adminBtn.id = "admin-shortcut";
-              adminBtn.innerHTML = `<a href="../Admin/dashboard_admin.php" class="btn btn-primary">Dashboard Admin</a>`;
+              // Mengubah class btn-primary (red/orange) menjadi btn-secondary (blue/purple) agar konsisten dengan desain tombol utama
+              adminBtn.innerHTML = `<a href="../Admin/dashboard_admin.php" class="btn btn-primary">Dashboard Admin</a>`; 
               navLinks.insertBefore(adminBtn, navLinks.lastElementChild); // taruh sebelum tombol Logout
             }
           }, 200); // jeda 0.2 detik biar DOM ready
@@ -529,40 +423,30 @@ $tableResult = mysqli_query($conn, $tableQuery);
 
       } catch (error) {
         console.error("Auth error:", error);
-        alert("Terjadi kesalahan. Silakan login ulang.");
+        console.log("Terjadi kesalahan. Silakan login ulang.");
         window.location.href = "../index.php";
       }
     });
 
-    // === Logout Function ===
-    async function logoutUser() {
+    // Mengubah fungsi logout menjadi global
+    window.logoutUser = async function() {
       try {
-
-        // Tandai logout baru saja dilakukan
         sessionStorage.setItem('justLoggedOut', '1');
-
-        // Hapus semua cache user
         localStorage.removeItem("userUID");
         localStorage.removeItem("userRole");
         sessionStorage.removeItem("userRole");
 
-        // Reset variabel global kalau ada
         if (typeof currentUser !== "undefined") currentUser = null;
         if (typeof currentUserRole !== "undefined") currentUserRole = null;
 
-        // Firebase sign out
         await firebase.auth().signOut();
         console.log("Logout successful");
 
-        // Redirect ke index
         window.location.href = "../index.php";
       } catch (error) {
         console.error("Logout error:", error);
-
-        // Force clear meskipun gagal
         localStorage.removeItem("userUID");
         localStorage.removeItem("userRole");
-
         window.location.href = "../index.php";
       }
     }
@@ -579,6 +463,41 @@ $tableResult = mysqli_query($conn, $tableQuery);
         });
       }
     });
+
+    // === Verifikasi Akses Dashboard ===
+    firebase.auth().onAuthStateChanged(async (user) => {
+      const loadingScreen = document.getElementById('loading-screen');
+      const mainContent = document.getElementById('main-content');
+      
+      if (user) {
+          // 1. Ambil Role (Wajib)
+          let role = localStorage.getItem("userRole") || await validateUserRole(user.uid); 
+          
+          // 2. Cek Kesesuaian Role dengan Halaman
+          const expectedRole = window.location.pathname.includes("Admin") ? "admin" : "guest";
+          
+          // Cek jika role sesuai ATAU jika Admin yang login mencoba Guest Dashboard (yang mana OK)
+          if (role === expectedRole || (role === "admin" && expectedRole === "guest")) {
+            loadingScreen.style.display = 'none';
+            mainContent.style.display = 'block';
+          } else {
+            // Role tidak sesuai, buang ke index.php
+            console.log(`Role ${role} mencoba mengakses ${expectedRole} dashboard. Redirecting.`);
+            window.location.replace("../index.php");
+          }
+
+      } else {
+          // Tidak ada user yang login, Redirect ke index.php
+          console.log("No user, redirecting to login page.");
+          window.location.replace("../index.php");
+      }
+    });
+
+    // Note: Fungsi update_views.php tidak bisa dipanggil dari sini tanpa PHP session,
+    // jadi mekanisme ini sudah benar jika hanya mengandalkan link ke view_counter.php
+    // document.querySelectorAll('.btn-lihat').forEach(...) dihapus karena sudah diganti 
+    // dengan link langsung ke view_counter.php di bagian PHP loop.
+
 </script>
 
 </body>

@@ -53,7 +53,7 @@ include 'koneksi.php';
 <main class="dashboard-admin">
   <div class="welcome-box">
     <h1>Selamat datang, <span class="highlight">Admin</span>!</h1>
-    <p class="welcome-sub">Senang bertemu lagi denganmu hari ini 🚀</p>
+    <p class="welcome-sub">Senang bertemu lagi denganmu hari ini</p>
   </div>
 </main>
 
@@ -300,6 +300,35 @@ include 'koneksi.php';
         input.files = e.dataTransfer.files;
         input.dispatchEvent(new Event("change"));
       });
+    }
+  });
+
+  // === Verifikasi Akses Dashboard ===
+  firebase.auth().onAuthStateChanged(async (user) => {
+    const loadingScreen = document.getElementById('loading-screen');
+    const mainContent = document.getElementById('main-content');
+    
+    if (user) {
+        // 1. Ambil Role (Wajib)
+        let role = localStorage.getItem("userRole") || await validateUserRole(user.uid); 
+        
+        // 2. Cek Kesesuaian Role dengan Halaman
+        const expectedRole = window.location.pathname.includes("Admin") ? "admin" : "guest";
+        
+        // Cek jika role sesuai ATAU jika Admin yang login mencoba Guest Dashboard (yang mana OK)
+        if (role === expectedRole || (role === "admin" && expectedRole === "guest")) {
+          loadingScreen.style.display = 'none';
+          mainContent.style.display = 'block';
+        } else {
+          // Role tidak sesuai, buang ke index.php
+          console.log(`Role ${role} mencoba mengakses ${expectedRole} dashboard. Redirecting.`);
+          window.location.replace("../index.php");
+        }
+
+    } else {
+        // Tidak ada user yang login, Redirect ke index.php
+        console.log("No user, redirecting to login page.");
+        window.location.replace("../index.php");
     }
   });
 </script>
