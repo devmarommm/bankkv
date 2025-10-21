@@ -6,7 +6,6 @@
   <title>Bank KV - Aset Visual Premium</title>
   <link rel="stylesheet" href="style-new.css"/>
   <script src="script.js" defer></script>
-  <script src="firebase-init.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@800&display=swap" rel="stylesheet">
 </head>
 <body>

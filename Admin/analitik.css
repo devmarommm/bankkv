@@ -1,0 +1,372 @@
+:root {
+    /* Colors - Diperbarui sesuai spesifikasi */
+    --color-primary-red: #FF0025; 
+    --color-secondary-orange: #FF5E00; 
+    --color-text-dark: #333333;
+    --color-text-light: #FFFFFF;
+    --color-background-light: #F8F8F8;
+  
+    /* Typography */
+    --font-family-base: 'Poppins', sans-serif; /* Hanya Poppins, Hapus Helvetica dkk */
+    --font-family-title: 'Nunito', sans-serif; /* Font untuk "Halo!" */
+    --font-size-base: 16px;
+  }
+
+  html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  body > footer {
+    margin-top: auto;
+  }
+  
+  body {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    color: var(--color-text-dark);
+    margin: 0;
+    line-height: 1.6;
+    background-color: #fff;
+  }
+  
+  a {
+    color: var(--color-secondary-orange);
+    text-decoration: none;
+  }
+  
+  /* ==================================== */
+  /* ============= INDEX.PHP ============ */
+  /* ==================================== */
+      /* ==================================== */
+      /* 1. HEADER (Latar Belakang & Logo) */
+      /* ==================================== */
+      header {
+        background: linear-gradient(135deg, var(--color-primary-red), var(--color-secondary-orange));
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        /* TINGGI HEADER DITINGKATKAN */
+        height: 90px; 
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+  
+      /* Kapsul Logo berwarna putih, mengambil dari logo.png */
+      header .logo {
+        background: #fff;
+        border-radius: 50px;
+        /* PADDING DISESUAIKAN */
+        padding: 10px 30px; 
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+  
+      header .logo img {
+        /* TINGGI LOGO DITINGKATKAN */
+        height: 55px; 
+        width: auto;
+      }
+
+      header .logo {
+        margin: 10px 0;
+     }
+
+         /* === Logo Tengah === */
+    header .logo {
+        background: #fff;
+        border-radius: 50px;
+        padding: 6px 22px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+  
+      header .logo img {
+        height: 45px;
+        width: auto;
+        display: block;
+      }
+
+      /* ==================================== */
+/* ======== BODY & KONTEN UTAMA ======= */
+/* ==================================== */
+
+/* Spasi antara header dan isi */
+body {
+    margin-top: 0;
+  }
+/* === HERO ANALITIK KV === */
+.hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6rem 8%;
+    background: #fff;
+    overflow: hidden;
+    margin-top: 90px;
+    min-height: 550px; /* tinggi seperti desain */
+    flex-wrap: nowrap;
+    z-index: 1;
+  }
+  
+  /* Lingkaran dekoratif kiri bawah */
+  .hero::before {
+    content: "";
+    position: absolute;
+    bottom: -80px;
+    left: -60px;
+    width: 260px;
+    height: 260px;
+    background: var(--color-primary-red);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  
+  /* Lingkaran dekoratif kanan atas */
+  .hero::after {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -80px;
+    width: 260px;
+    height: 260px;
+    background: var(--color-primary-red);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  
+  /* Teks kiri */
+  .hero-text {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .hero-text h1 {
+    font-family: var(--font-family-title);
+    font-weight: 800;
+    font-size: 5rem;
+    color: var(--color-text-dark);
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+  
+  .hero-text h1 span {
+    color: var(--color-primary-red);
+  }
+  
+  .hero-text p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    line-height: 1.6;
+    max-width: 520px;
+  }
+  
+  /* Gambar kanan */
+  .hero-img {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+  
+  .hero-img img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /* Jarak antar konten */
+  .content {
+    margin-top: 2.5rem;
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* === RESPONSIVE === */
+  @media (max-width: 992px) {
+    .hero {
+      flex-direction: column-reverse;
+      text-align: center;
+      padding: 4rem 6%;
+    }
+    .hero-text {
+      max-width: 100%;
+    }
+    .hero-img img {
+      max-width: 400px;
+    }
+    .hero::before,
+    .hero::after {
+      display: none;
+    }
+  }
+  
+  /* ==================================== */
+  /* ============= KONTEN =============== */
+  /* ==================================== */
+    /* Tambahkan jarak antara hero dan konten di bawah */
+    .content {
+        margin-top: 2rem !important;
+        position: relative;
+        z-index: 2;
+      }
+
+  .card {
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    padding: 2rem;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  }
+  
+  .card h2 {
+    font-weight: 700;
+    color: var(--color-primary-red);
+    margin-bottom: 1.2rem;
+  }
+  
+  /* Total KV */
+  .total-kv {
+    text-align: center;
+  }
+  .total-kv .total-value {
+    font-size: 3.2rem;
+    color: var(--color-primary-red);
+    font-weight: 800;
+  }
+  
+  /* Dropdown Filter */
+  .filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .filters select {
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-weight: 600;
+    cursor: pointer;
+    background: #fff;
+  }
+  
+  /* KV POPULER INFO */
+  .kv-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .kv-info img {
+    width: 140px;
+    border-radius: 12px;
+  }
+  .text-info p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+  }
+  
+  /* KATEGORI DOMINAN */
+  .dominant {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dominant-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-primary-red);
+  }
+  .dominant-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-secondary-orange);
+  }
+  
+/* ==================================== */
+/* ============ CHART AREA ============ */
+/* ==================================== */
+.chart-container {
+    display: flex;
+    flex-direction: row; /* pastikan horizontal */
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap; /* biar responsif */
+    margin-top: 2rem;
+  }
+  
+  .chart-box {
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    flex: 1 1 400px;
+    max-width: 500px;
+    min-height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .chart-box canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 320px;
+  }  
+
+  .content .chart-container {
+    grid-column: 1 / -1; /* lebar penuh grid */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+
+  @media (max-width: 768px) {
+    .chart-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }  
+  
+  /* ==================================== */
+/* ============== FOOTER ============== */
+/* ==================================== */
+footer {
+    background: linear-gradient(135deg, var(--color-primary-red), var(--color-secondary-orange));
+    color: var(--color-text-light);
+    text-align: center;
+    padding: 1.2rem 0;
+    font-weight: 600;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    margin-top: 4rem;
+    position: relative;
+    bottom: 0;
+  }
+  
+  footer p {
+    margin: 0;
+    letter-spacing: 0.5px;
+    font-size: 0.95rem;
+  }
+  

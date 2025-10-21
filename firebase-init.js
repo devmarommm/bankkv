@@ -3,7 +3,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyA3wCPXQkoIpf_sYoVNrseoTWp5heH0VAE",
     authDomain: "bank-kv-1910f.firebaseapp.com",
     projectId: "bank-kv-1910f",
-    storageBucket: "bank-kv-1910f.firebasestorage.app",
+    storageBucket: "bank-kv-1910f.appspot.com",
     messagingSenderId: "87795172113",
     appId: "1:87795172113:web:08b077dbfbdee9adbfc2b0",
     measurementId: "G-84VE29GC3W"

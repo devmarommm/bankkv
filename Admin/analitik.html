@@ -3,186 +3,110 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Analitik KV - Bank KV</title>
-  <link rel="stylesheet" href="../style.css"/>
+  <title>Analitik KV - KV Bank</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    .analytics-container {
-      display: grid;
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-    .summary-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-    }
-    .card {
-      background: #fff;
-      padding: 1.5rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      text-align: center;
-      transition: transform 0.2s ease;
-    }
-    .card:hover { transform: translateY(-5px); }
-    .card h3 { margin: 0.5rem 0; font-size: 1.8rem; color: #6C5CE7; }
-    .charts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-    }
-    canvas { background: #fff; border-radius: 1rem; padding: 1rem; }
-
-    #categoryChart {
-      max-width: 400px;
-      max-height: 400px;
-      margin: 0 auto;
-    }
-
-    .charts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-      align-items: center;
-      justify-items: center;
-    }
-    canvas {
-      width: 100% !important;
-      height: auto !important;
-    }
-  </style>
+  <link rel="stylesheet" href="analitik.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Header -->
-  <header class="scrolled">
-    <div class="container">
+  <header>
       <div class="logo">
-        <img src="../images/logo.png" alt="Bank KV" />
-        <h1>Bank KV</h1>
+        <img src="../images/logo.png" alt="Logo Bank KV" />
       </div>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="dashboard_admin.php" class="nav-link">Beranda</a></li>
-          <li><a href="analitik.html" class="nav-link active">Analitik KV</a></li>
-        </ul>
-      </nav>
-    </div>
   </header>
 
-  <!-- Hero -->
-  <section id="hero">
-    <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-title">Dashboard <span>Analitik KV</span></h1>
-        <p class="hero-subtitle">Pantau performa Key Visual Anda melalui data penggunaan, popularitas, dan interaksi.</p>
-      </div>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Dashboard <span>Analitik KV</span></h1>
+      <p>Pantau performa Key Visual anda melalui data penggunaan, popularitas dan interaksi</p>
     </div>
+    <img src="../images/analitik.png" alt="Team Illustration" class="hero-img">
   </section>
 
-  <!-- Analytics -->
-  <section>
-    <div class="container analytics-container">
-      
-      <!-- Summary Cards -->
-     <div class="card">
-        <h3>Total KV</h3>
-        <p id="total-kv">0</p>
-      </div>
+  <!-- KONTEN -->
+  <section class="content">
+    <!-- TOTAL KV -->
+    <div class="card total-kv">
+      <h2>Total KV</h2>
+      <div class="total-value">12</div>
+    </div>
 
-      <div class="card">
-        <h3>KV Populer</h3>
-        <p>Kategori: <span id="kv-populer-kat">-</span></p>
-        <p>Tag: <span id="kv-populer-tag">-</span></p>
-        <p>Views: <span id="kv-populer-views">-</span></p>
+    <!-- KV POPULER -->
+    <div class="card">
+      <h2>KV Populer</h2>
+      <div class="filters">
+        <select><option>2025</option></select>
+        <select><option>Oktober</option></select>
       </div>
-
-      <div class="card">
-        <h3>Kategori Dominan</h3>
-        <p><span id="kat-dominan-nama">-</span></p>
-        <p><span id="kat-dominan-persen">-</span></p>
+      <div class="kv-info">
+        <div class="text-info">
+          <p><strong>Nama :</strong> Super Seru Girl</p>
+          <p><strong>Kategori :</strong> Mobile</p>
+          <p><strong>Tag :</strong> Promo</p>
+          <p><strong>Kreator :</strong> Rachtaelle</p>
+          <p><strong>Tanggal :</strong> 2025-10-02</p>
+          <p><strong>Views :</strong> 20</p>
+        </div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Telkomsel_logo_2021.svg" alt="KV Image">
       </div>
+    </div>
 
-      <!-- Charts -->
-      <div class="charts">
-        <canvas id="viewsChart"></canvas>
-          <div style="width: 100%; max-width: 400px; height: 400px;">
-            <canvas id="categoryChart"></canvas>
-          </div>
+    <!-- KATEGORI DOMINAN -->
+    <div class="card">
+      <h2>Kategori Dominan</h2>
+      <div class="filters">
+        <select><option>Tahun</option></select>
+        <select><option>Bulan</option></select>
+      </div>
+      <div class="dominant">
+        <span class="dominant-name">Mobile</span>
+        <span class="dominant-value">20 KV</span>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-box">
+        <canvas id="lineChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <canvas id="pieChart"></canvas>
       </div>
     </div>
   </section>
 
   <footer>
-    <div class="container">
-      <p style="text-align: center; padding: 2rem 0; color: #fff">&copy; 2025 Bank KV. All rights reserved.</p>
-    </div>
+    <p>&copy; 2025 KV Bank. All rights reserved.</p>
   </footer>
 
   <script>
-    fetch("get_analytics.php")
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
+    // Dummy ChartJS
+    new Chart(document.getElementById("lineChart"), {
+      type: 'line',
+      data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun"],
+        datasets: [{
+          data: [10, 6, 9, 7, 8, 12],
+          borderColor: 'red',
+          borderWidth: 2,
+          tension: 0.3
+        }]
+      },
+      options: { plugins: { legend: { display: false } } }
+    });
 
-        // === Total KV ===
-        document.getElementById("total-kv").innerText = data.total_kv;
-
-        // === KV Populer ===
-        document.getElementById("kv-populer-kat").innerText = data.kv_populer.kategori;
-        document.getElementById("kv-populer-tag").innerText = data.kv_populer.tag;
-        document.getElementById("kv-populer-views").innerText = data.kv_populer.views + " views";
-
-        // === Kategori Dominan ===
-        document.getElementById("kat-dominan-nama").innerText = data.kategori_dominan.kategori;
-        document.getElementById("kat-dominan-persen").innerText = data.kategori_dominan.persen + "% dari KV bulan ini";
-
-        // === Grafik Perkembangan KV ===
-        const monthlyData = {};
-        data.data_kv.forEach(kv => {
-          const date = new Date(kv.tanggal);
-          const month = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
-          monthlyData[month] = (monthlyData[month] || 0) + 1;
-        });
-        const labels = Object.keys(monthlyData);
-        const values = Object.values(monthlyData);
-
-        new Chart(document.getElementById('viewsChart'), {
-          type: 'line',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: 'Jumlah KV per Bulan',
-              data: values,
-              borderColor: '#6C5CE7',
-              backgroundColor: '#6C5CE7',
-              tension: 0.3,
-              fill: false
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: { title: { display: true, text: 'Perkembangan KV per Bulan' } }
-          }
-        });
-
-        // === Grafik Kategori Dominan ===
-        new Chart(document.getElementById('categoryChart'), {
-          type: 'pie',
-          data: {
-            labels: Object.keys(data.kategori_data),
-            datasets: [{
-              data: Object.values(data.kategori_data),
-              backgroundColor: ['#6C5CE7','#00CEFF','#FF7675','#636E72','#fdcb6e','#0984e3','#fab1a0']
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: { title: { display: true, text: 'Distribusi Kategori KV Bulan Ini' } }
-          }
-        });
-      })
-      .catch(err => console.error("Fetch error:", err));
+    new Chart(document.getElementById("pieChart"), {
+      type: 'pie',
+      data: {
+        labels: ["Mobile", "Promo", "Retail"],
+        datasets: [{
+          data: [60, 25, 15],
+          backgroundColor: ['red', 'orange', 'pink']
+        }]
+      },
+      options: { plugins: { legend: { display: false } } }
+    });
   </script>
 
 </body>

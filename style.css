@@ -1919,10 +1919,6 @@ table.kv-table {
   margin-bottom: 10px;
 }
 
-.welcome-box .highlight {
-  color: #facc15; /* kuning biar kontras */
-}
-
 /* Sub-teks */
 .welcome-sub {
   font-size: 18px;

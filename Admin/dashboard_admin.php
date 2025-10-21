@@ -26,14 +26,12 @@ include 'koneksi.php';
   100% { transform: rotate(360deg); }
 }
 </style>
-
 <div id="main-content" style="display: none;"></div>
 
 <header>
   <div class="container">
     <div class="logo">
       <img src="../images/logo.png" alt="Bank KV Logo" height="40">
-      <h1>Bank<span style="color:#2563eb;">KV</span></h1>
     </div>
     <div class="hamburger" id="hamburger">
       <span></span>
@@ -52,7 +50,7 @@ include 'koneksi.php';
 
 <main class="dashboard-admin">
   <div class="welcome-box">
-    <h1>Selamat datang, <span class="highlight">Admin</span>!</h1>
+    <h1>Selamat datang, <span>Admin</span>!</h1>
     <p class="welcome-sub">Senang bertemu lagi denganmu hari ini</p>
   </div>
 </main>
