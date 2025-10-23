@@ -200,9 +200,8 @@
                 updateUserLocalStorage(user.uid, role);
 
                 // 4. Redirection TEGAS & LANGSUNG
-                const redirectURL = (role === "admin") 
-                ? "Admin/dashboard_admin.php" 
-                : "Guest/dashboard_guest.php";
+                const redirectURL = "Guest/dashboard_guest.php";
+                window.location.replace(redirectURL);
 
                 console.log(`Login successful. Role: ${role}, Redirecting: ${redirectURL}`);
 
@@ -271,10 +270,10 @@
                 // ===============================================
                 // *** CRITICAL FIX: PAKSA REDIRECT DI HALAMAN INDEX ***
                 // ===============================================
-                const dashboardURL = (role === "admin") 
-                    ? "Admin/dashboard_admin.php" 
-                    : "Guest/dashboard_guest.php";
+                // Semua user diarahkan dulu ke dashboard_guest.php
+                const dashboardURL = "Guest/dashboard_guest.php";
 
+                
                 // Jika user terdeteksi login dan berada di halaman index.php (atau root)
                 if (window.location.pathname.endsWith("index.php") || window.location.pathname === "/") {
                     console.log(`Auto-redirecting logged-in user to: ${dashboardURL}`);
