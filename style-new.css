@@ -357,24 +357,22 @@ a {
     }
 
     /* Wrapper utama */
-    .header-wrapper, 
-    header .container {
+    .header-wrapper {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 14px 40px;
+      padding: 10px 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 30px;
+      box-sizing: border-box;
     }
 
     /* ===== Area Kiri ===== */
     .nav-left {
       display: flex;
       align-items: center;
-      gap: 25px;
-      flex: 1;
-      justify-content: flex-start;
+      gap: 24px;
+      margin-right: 40px;
     }
 
     .nav-left .nav-link {
@@ -382,6 +380,10 @@ a {
       font-weight: 600;
       font-size: 15px;
       text-decoration: none;
+      padding: 8px 0;
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
       transition: color 0.3s ease;
     }
 
@@ -391,8 +393,9 @@ a {
 
     /* ===== Logo Tengah ===== */
     .nav-center {
-      flex-shrink: 0;
+      flex-shrink: 0; /* jangan mengecilkan logo */
       display: flex;
+      align-items: center;
       justify-content: center;
     }
 
@@ -416,21 +419,22 @@ a {
     .nav-right {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      gap: 25px;
-      flex: 1;
+      gap: 24px;
+      margin-left: 40px;
     }
 
-    /* Samakan style dengan navigasi kiri */
     .nav-right a {
       color: #fff;
       font-weight: 600;
       font-size: 15px;
       text-decoration: none;
+      padding: 8px 0;
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
       transition: color 0.3s ease;
     }
 
-    /* Hover effect sama seperti nav kiri */
     .nav-right a:hover {
       color: #ffe0b2;
     }
@@ -582,7 +586,7 @@ a {
     .circle {
       position: absolute;
       border-radius: 50%;
-      background: radial-gradient(circle at center, #FF0025 0%, #FF5E00 100%);
+      background: #FF0025;
       z-index: 1;
     }
 
@@ -611,7 +615,7 @@ a {
       top: 410px;
       left: 1050px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #FF0025, #FF5E00);
+      background: #FF0025;
       opacity: 1;
       z-index: 0;
     }
@@ -647,6 +651,24 @@ a {
         width: 350px;
         height: 350px;
       }
+
+      .header-wrapper {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .nav-left,
+      .nav-right {
+        flex-basis: 100%;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      .nav-center {
+        order: -1;
+        margin-bottom: 10px;
+      }
     }
 
     /* ===================== */
@@ -675,7 +697,7 @@ a {
     .kv-stats::before {
       width: 200px;
       height: 200px;
-      background: radial-gradient(circle at center, #FF0025 0%, #FF5E00 100%);
+      background: #FF0025;
       bottom: -40px;
       left: 50px;
     }
@@ -684,7 +706,7 @@ a {
     .kv-stats::after {
       width: 200px;
       height: 200px;
-      background: radial-gradient(circle at center, #FF0025 0%, #FF5E00 100%);
+      background: #FF0025;
       top: -50px;
       right: 15px;
     }

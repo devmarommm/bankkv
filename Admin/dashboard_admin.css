@@ -1,0 +1,522 @@
+:root {
+    --color-primary-red: #ff0025;
+    --color-secondary-orange: #ff5e00;
+    --color-text-dark: #333333;
+    --color-text-light: #ffffff;
+    --color-background-light: #ffffff;
+    --font-family-base: 'Poppins', sans-serif;
+  }
+  
+  /* Reset */
+  body {
+    margin: 0;
+    font-family: var(--font-family-base);
+    background: var(--color-background-light);
+    color: var(--color-text-dark);
+    overflow-x: hidden;
+  }
+  
+/* ========================= */
+/* ======== NAVBAR ========= */
+/* ========================= */
+.navbar-kv {
+  background: linear-gradient(90deg, var(--color-primary-red), var(--color-secondary-orange));
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  padding: 10px 0;
+}
+
+/* Gunakan grid 3 kolom: kiri - logo - kanan */
+.nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 60px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 60px; /* jarak antar item */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Buat kanan agak menjauh */
+.nav-left {
+  justify-content: flex-end;
+  margin-right: 40px; /* Tambahkan jarak antara nav kiri dan logo */
+}
+
+.nav-right {
+  justify-content: flex-start;
+  margin-left: 40px; /* Tambahkan jarak antara logo dan nav kanan */
+}
+
+
+/* Logo Tengah */
+.logo-center {
+  background: #fff;
+  border-radius: 100px;
+  padding: 8px 45px; /* diperlebar sedikit */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-center img {
+  height: 45px;
+  width: auto;
+}
+
+/* Teks Link */
+.nav-link {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 17px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffe2d4;
+  transform: translateY(-2px);
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* Responsif */
+@media (max-width: 992px) {
+  .nav-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .nav-left,
+  .nav-right {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .logo-center {
+    padding: 8px 35px;
+  }
+}
+
+
+/* ========================= */
+/* ======== DASHBOARD ====== */
+/* ========================= */
+  .dashboard-admin {
+    position: relative;
+    text-align: center;
+    padding: 100px 20px 60px;
+    overflow: visible; /* biar gambar nggak ke-crop */
+  }
+  
+  /* Bundaran dekoratif */
+  .dashboard-admin::before,
+  .dashboard-admin::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    z-index: 0;
+    opacity: 0.95;
+  }
+  
+  /* Bundaran kiri */
+  .dashboard-admin::before {
+    width: 350px;
+    height: 350px;
+    background: var(--color-primary-red);
+    top: 140px;
+    left: -100px;
+  }
+  
+  /* Bundaran kanan */
+  .dashboard-admin::after {
+    width: 300px;
+    height: 300px;
+    background: var(--color-secondary-orange);
+    top: 30px;
+    right: -120px;
+  }
+  
+  /* Kotak selamat datang */
+  .welcome-box {
+    background: linear-gradient(90deg, var(--color-primary-red), var(--color-secondary-orange));
+    color: #fff;
+    border-radius: 25px;
+    padding: 50px 30px;
+    max-width: 800px;
+    margin: 40px auto;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .welcome-box h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  
+  .welcome-sub {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  
+  .character-group {
+    position: relative;
+    z-index: 3; /* di depan kotak */
+    margin: -180px auto 0;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+  
+  .character-group img {
+    width: 700px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain; /* biar proporsional */
+    filter: drop-shadow(0 8px 10px rgba(0,0,0,0.15));
+  }
+  
+  
+
+  /* ========================= */
+/* ======== FORM UPLOAD ==== */
+/* ========================= */
+
+.upload-form {
+  max-width: 1100px;
+  margin: 50px auto 60px; /* tambahin margin bawah biar ada ruang */
+  background: #fff;
+  padding: 30px 40px 80px; /* padding bawah diperbesar agar tombol punya ruang */
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.upload-form h2 {
+  color: var(--color-primary-red);
+  font-size: 2.3rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* Pastikan form-grid tetap dua kolom */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Buat form-group full width */
+.form-group.full-width {
+  grid-column: 1 / 3; /* Membuat elemen melebar ke dua kolom */
+}
+
+/* Bungkus tiap field dalam kotak lembut */
+.form-group {
+  background: #fff;
+  padding: 16px 18px;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-group select {
+  border: 1px solid #eee;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #fafafa;
+  font-family: var(--font-family-base);
+  color: #333;
+  font-size: 15px;
+  appearance: none; /* biar tampilan lebih modern */
+  cursor: pointer;
+}
+
+.form-group select:focus {
+  border-color: var(--color-primary-red);
+  box-shadow: 0 0 0 2px rgba(255,0,37,0.15);
+  background: #fff;
+}
+
+.form-group input {
+  box-shadow: none; /* hilangkan shadow lama */
+  border: 1px solid #eee;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.form-group input::placeholder {
+  color: #b9b9b9;
+}
+
+.form-group input:focus {
+  border-color: var(--color-primary-red);
+  box-shadow: 0 0 0 2px rgba(255,0,37,0.15);
+  background: #fff;
+}
+
+/* Efek hover & focus ringan pada kotak */
+.form-group:hover {
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+/* Dropzone upload area */
+.dropzone {
+  background: #fff;
+  border-radius: 16px;
+  border: 2px dashed #bbb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  width: 180px;
+  height: 200px;
+  margin-top: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: border 0.2s ease, transform 0.2s ease;
+}
+
+.dropzone:hover {
+  border-color: var(--color-primary-red);
+  transform: translateY(-2px);
+}
+
+.dropzone span {
+  font-size: 13px;
+  color: #555;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Tombol "Kirim" */
+.upload-form button {
+  background: linear-gradient(90deg, var(--color-primary-red), var(--color-secondary-orange));
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 36px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 17px;
+  position: absolute;
+  right: 60px;
+  bottom: 35px; /* dari 20px jadi 35px supaya agak turun */
+}
+
+.upload-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* Untuk dropzone juga dalam kotak */
+.upload-wrapper {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  padding: 20px;
+  text-align: center;
+  margin: 30px auto;
+  width: fit-content;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.upload-wrapper:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+.upload-wrapper .dropzone {
+  background: #fdfdfd;
+  border: 2px dashed #bbb;
+  border-radius: 14px;
+  padding: 25px;
+  width: 200px;
+  height: 180px;
+  margin: 0 auto;
+}
+
+#drop-area {
+  border: 2px dashed #ff4b2b;
+  border-radius: 14px;
+  padding: 40px 20px;
+  text-align: center;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  width: 95%; /* jangan full 100%, supaya sejajar dengan form lain */
+  margin: 0 auto; /* agar center di tengah form */
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+#drop-area:hover {
+  border-color: #ff0025;
+  background-color: #fff8f8;
+}
+
+/* Batas ukuran gambar yang tampil di dropzone */
+#drop-area img,
+.dropzone img {
+  max-width: 100%;
+  max-height: 180px; /* batasi tinggi maksimal */
+  object-fit: contain; /* supaya proporsional */
+  display: block;
+  margin: 10px auto;
+  border-radius: 10px;
+}
+
+
+/* Responsif */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .upload-form button {
+    position: static;
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+  }
+}
+
+  
+/* ========================= */
+/* ======== TABEL KV ======= */
+/* ========================= */
+.table-wrapper {
+  max-width: 1100px;
+  margin: 0 auto 80px;
+  overflow-x: auto;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+.section-tittle {
+  background: linear-gradient(90deg, var(--color-primary-red), var(--color-secondary-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2.4rem; /* sedikit lebih besar */
+  font-weight: 900;
+  text-align: center;
+  margin: 40px 0 30px;
+  letter-spacing: 0.5px;
+}
+
+
+.kv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family-base);
+}
+
+.kv-table thead tr {
+  background: linear-gradient(90deg, var(--color-primary-red), var(--color-secondary-orange));
+}
+
+.kv-table th {
+  background: transparent; /* hilangkan warna per kolom */
+  color: #fff;
+  padding: 14px 18px;
+  font-weight: 700;
+  text-align: left;
+  border: none;
+  font-size: 15px;
+}
+
+.kv-table th:first-child {
+  border-top-left-radius: 18px;
+}
+
+.kv-table th:last-child {
+  border-top-right-radius: 18px;
+}
+
+.kv-table td {
+  padding: 16px 18px;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+
+.kv-table tr:last-child td {
+  border-bottom: none;
+}
+
+.kv-table td a {
+  color: var(--color-primary-red);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.kv-table td a:hover {
+  text-decoration: underline;
+}
+
+.btn-delete {
+  background: var(--color-primary-red);
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.25s ease;
+}
+
+.btn-delete:hover {
+  background: #d7001f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+  /* ========================= */
+  /* ======== RESPONSIVE ===== */
+  /* ========================= */
+  @media (max-width: 992px) {
+    .nav-container {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .nav-left, .nav-right {
+      gap: 30px;
+    }
+  
+    .welcome-box {
+      margin: 20px 15px;
+      padding: 40px 20px;
+    }
+  }

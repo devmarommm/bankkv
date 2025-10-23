@@ -25,7 +25,7 @@
           Simpan dan temukan key visual berkualitas tinggi untuk referensi proyek kreatif Anda
         </p>
         <div class="hero-buttons">
-          <a href="#" class="btn btn-primary" id="btn-register">Buat Akun</a>
+        <a href="#" class="btn btn-primary" id="btn-register">Buat Akun</a>
           <a href="#" class="btn btn-outline" id="btn-admin">Admin</a>
         </div>
       </div>
@@ -79,7 +79,7 @@
             apiKey: "AIzaSyA3wCPXQkoIpf_sYoVNrseoTWp5heH0VAE",
             authDomain: "bank-kv-1910f.firebaseapp.com",
             projectId: "bank-kv-1910f",
-            storageBucket: "bank-kv-1910f.firebasestorage.app",
+            storageBucket: "bank-kv-1910f.appspot.com",
             messagingSenderId: "87795172113",
             appId: "1:87795172113:web:08b077dbfbdee9adbfc2b0",
             measurementId: "G-84VE29GC3W"
@@ -143,6 +143,17 @@
             }, 10);
         }
 
+        // === Tombol Buka Modal Register ===
+        document.addEventListener("DOMContentLoaded", () => {
+        const btnRegister = document.getElementById("btn-register");
+        if (btnRegister) {
+            btnRegister.addEventListener("click", (e) => {
+            e.preventDefault(); // cegah reload halaman
+            openRegisterModal(); // buka popup
+            });
+        }
+        });
+
         function closeRegisterModal() {
             const modal = document.getElementById('register-modal');
             
@@ -153,6 +164,48 @@
             setTimeout(() => {
                 modal.classList.add('hidden');
             }, 300); // Sesuaikan dengan durasi transisi CSS
+        }
+
+                // === Fungsi Register User dengan Firebase ===
+        async function registerUser() {
+        const name = document.getElementById("register-name").value.trim();
+        const email = document.getElementById("register-email").value.trim();
+        const password = document.getElementById("register-password").value;
+
+        if (!name || !email || !password) {
+            alert("Semua kolom wajib diisi!");
+            return;
+        }
+
+        try {
+            // Buat akun di Firebase Authentication
+            const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+
+            // Simpan data user ke Firestore
+            await db.collection("users").doc(user.uid).set({
+            name: name,
+            email: email,
+            role: "guest", // default role
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+
+            alert("Pendaftaran berhasil! Selamat datang, " + name);
+
+            // Tutup modal setelah sukses
+            closeRegisterModal();
+
+            // Update local storage & redirect ke dashboard guest
+            updateUserLocalStorage(user.uid, "guest");
+            window.location.replace("Guest/dashboard_guest.php");
+
+        } catch (error) {
+            console.error("Register error:", error);
+            let msg = error.message;
+            if (error.code === "auth/email-already-in-use") msg = "Email sudah terdaftar.";
+            else if (error.code === "auth/weak-password") msg = "Kata sandi terlalu lemah (minimal 6 karakter).";
+            alert("Gagal mendaftar: " + msg);
+        }
         }
 
         // === Fungsi Login - PERBAIKAN TOTAL ===
@@ -200,8 +253,9 @@
                 updateUserLocalStorage(user.uid, role);
 
                 // 4. Redirection TEGAS & LANGSUNG
-                const redirectURL = "Guest/dashboard_guest.php";
-                window.location.replace(redirectURL);
+                const redirectURL = (role === "admin") 
+                ? "Admin/dashboard_admin.php" 
+                : "Guest/dashboard_guest.php";
 
                 console.log(`Login successful. Role: ${role}, Redirecting: ${redirectURL}`);
 
@@ -270,10 +324,10 @@
                 // ===============================================
                 // *** CRITICAL FIX: PAKSA REDIRECT DI HALAMAN INDEX ***
                 // ===============================================
-                // Semua user diarahkan dulu ke dashboard_guest.php
-                const dashboardURL = "Guest/dashboard_guest.php";
+                const dashboardURL = (role === "admin") 
+                    ? "Admin/dashboard_admin.php" 
+                    : "Guest/dashboard_guest.php";
 
-                
                 // Jika user terdeteksi login dan berada di halaman index.php (atau root)
                 if (window.location.pathname.endsWith("index.php") || window.location.pathname === "/") {
                     console.log(`Auto-redirecting logged-in user to: ${dashboardURL}`);

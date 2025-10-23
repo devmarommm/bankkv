@@ -138,7 +138,7 @@ $tableResult = mysqli_query($conn, $tableQuery);
 
     <div class="search-card">
       <form class="search-controls" method="GET">
-        <input type="text" name="searchInput" placeholder="Cari Berdasarkan nama" 
+        <input type="text" name="searchInput" placeholder="Cari Berdasarkan nama"
           value="<?php echo isset($_GET['searchInput']) ? htmlspecialchars($_GET['searchInput']) : ''; ?>">
 
         <select name="filterYear">
@@ -146,8 +146,8 @@ $tableResult = mysqli_query($conn, $tableQuery);
           <?php
             $selectedYear = $_GET['filterYear'] ?? '';
             $tahunSekarang = date('Y');
-            for($t=$tahunSekarang+1; $t>=2020; $t--) {
-              echo "<option value='$t'".($selectedYear==$t?' selected':'').">$t</option>";
+            for ($t = $tahunSekarang + 1; $t >= 2020; $t--) {
+              echo "<option value='$t'".($selectedYear == $t ? ' selected' : '').">$t</option>";
             }
           ?>
         </select>
@@ -156,13 +156,13 @@ $tableResult = mysqli_query($conn, $tableQuery);
           <option value="">Bulan</option>
           <?php
             $bulan = [
-              '01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April',
-              '05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus',
-              '09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'
+              '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
+              '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus',
+              '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
             ];
             $selectedMonth = $_GET['filterMonth'] ?? '';
-            foreach ($bulan as $val=>$label) {
-              echo "<option value='$val'".($selectedMonth==$val?' selected':'').">$label</option>";
+            foreach ($bulan as $val => $label) {
+              echo "<option value='$val'".($selectedMonth == $val ? ' selected' : '').">$label</option>";
             }
           ?>
         </select>
@@ -174,6 +174,7 @@ $tableResult = mysqli_query($conn, $tableQuery);
 
       <div class="results-grid">
         <?php
+        include '../Admin/koneksi.php'; // pastikan koneksi sudah disertakan
         $search = $_GET['searchInput'] ?? '';
         $filterYear = $_GET['filterYear'] ?? '';
         $filterMonth = $_GET['filterMonth'] ?? '';
@@ -185,9 +186,14 @@ $tableResult = mysqli_query($conn, $tableQuery);
             $searchEscaped = mysqli_real_escape_string($conn, $search);
             $query .= " AND nama LIKE '%$searchEscaped%'";
           }
-          if ($filterYear) { $query .= " AND YEAR(tanggal)='$filterYear'"; }
-          if ($filterMonth) { $query .= " AND MONTH(tanggal)='$filterMonth'"; }
+          if ($filterYear) {
+            $query .= " AND YEAR(tanggal) = '$filterYear'";
+          }
+          if ($filterMonth) {
+            $query .= " AND MONTH(tanggal) = '$filterMonth'";
+          }
           $query .= " ORDER BY tanggal DESC";
+
           $result = mysqli_query($conn, $query);
 
           if (mysqli_num_rows($result) > 0) {
@@ -197,19 +203,21 @@ $tableResult = mysqli_query($conn, $tableQuery);
                 <div class='card-image-container'>
                   <div class='card-image-inner'>";
                     if (!empty($row['image'])) {
+                      // arahkan ke folder tempat gambar disimpan
                       echo "<img src='../Admin/uploads/".htmlspecialchars($row['image'])."' alt='Cover KV'>";
                     } else {
                       echo "<div class='no-image'>[ Tidak Ada Cover ]</div>";
                     }
-                  echo "</div>
+              echo "</div>
                 </div>
+
                 <div class='card-info'>
                   <h4>".htmlspecialchars($row['nama'])."</h4>
-                  <p><span>Nama:</span> ".htmlspecialchars($row['kreator'])."</p>
+                  <p><span>Campaign:</span> ".htmlspecialchars($row['campaign'])."</p>
                   <p><span>Kategori:</span> ".htmlspecialchars($row['kategori'])."</p>
-                  <p><span>Tag:</span> ".htmlspecialchars($row['tag'])."</p>
+                  <p><span>Source:</span> ".htmlspecialchars($row['source'])."</p>
                   <p><span>Tanggal:</span> ".htmlspecialchars($row['tanggal'])."</p>
-                  <a href='view_counter.php?id=".$row['id']."' target='_blank' class='card-link'>Lihat Detail</a>
+                  <a href='".htmlspecialchars($row['link'])."' target='_blank' class='card-link'>Lihat di Google Drive</a>
                 </div>
               </div>";
             }
@@ -237,8 +245,8 @@ $tableResult = mysqli_query($conn, $tableQuery);
   <form method="GET" class="kv-filter-form">
     <select name="filterKategori">
       <option value="">Semua Kategori</option>
-      <option value="fix" <?php echo (($_GET['filterKategori'] ?? '') == 'fix') ? 'selected' : ''; ?>>Fix</option>
-      <option value="mobile" <?php echo (($_GET['filterKategori'] ?? '') == 'mobile') ? 'selected' : ''; ?>>Mobile</option>
+      <option value="FIX" <?php echo (($_GET['filterKategori'] ?? '') == 'FIX') ? 'selected' : ''; ?>>FIX</option>
+      <option value="MOBILE" <?php echo (($_GET['filterKategori'] ?? '') == 'MOBILE') ? 'selected' : ''; ?>>MOBILE</option>
     </select>
 
     <select name="filterBulan">
@@ -260,8 +268,8 @@ $tableResult = mysqli_query($conn, $tableQuery);
       <option value="">Semua Tahun</option>
       <?php
       $tahunSekarang = date('Y');
+      $selectedTahunTabel = $_GET['filterTahun'] ?? '';
       for($t=$tahunSekarang; $t>=2020; $t--) {
-        $selectedTahunTabel = $_GET['filterTahun'] ?? '';
         echo "<option value='$t'".($selectedTahunTabel==$t?' selected':'').">$t</option>";
       }
       ?>
@@ -272,29 +280,78 @@ $tableResult = mysqli_query($conn, $tableQuery);
 
   <div class="kv-table-container">
     <table class="kv-table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Cover</th>
+          <th>Nama</th>
+          <th>Campaign</th>
+          <th>Kategori</th>
+          <th>Source</th>
+          <th>Tanggal</th>
+          <th>Link</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
       <tbody>
       <?php
+      include '../Admin/koneksi.php';
+
+      // Ambil filter
+      $filterKategori = $_GET['filterKategori'] ?? '';
+      $filterBulan = $_GET['filterBulan'] ?? '';
+      $filterTahun = $_GET['filterTahun'] ?? '';
+
+      // Bangun query
+      $query = "SELECT * FROM kv_folders WHERE 1=1";
+      if (!empty($filterKategori)) {
+        $kategoriEscaped = mysqli_real_escape_string($conn, $filterKategori);
+        $query .= " AND kategori = '$kategoriEscaped'";
+      }
+      if (!empty($filterBulan)) {
+        $bulanEscaped = mysqli_real_escape_string($conn, $filterBulan);
+        $query .= " AND MONTH(tanggal) = '$bulanEscaped'";
+      }
+      if (!empty($filterTahun)) {
+        $tahunEscaped = mysqli_real_escape_string($conn, $filterTahun);
+        $query .= " AND YEAR(tanggal) = '$tahunEscaped'";
+      }
+      $query .= " ORDER BY tanggal DESC";
+
+      $tableResult = mysqli_query($conn, $query);
+
       $no = 1;
       if ($tableResult && mysqli_num_rows($tableResult) > 0) {
-          while ($row = mysqli_fetch_assoc($tableResult)) {
-              echo "<tr>
-                  <td class='no'>$no.</td>
-                  <td class='cover'>";
-              if (!empty($row['image'])) {
-                  echo "<img src='../Admin/uploads/".htmlspecialchars($row['image'])."' alt='Cover'>";
-              } else { echo "-"; }
-              echo "</td>
-                  <td class='nama'>".htmlspecialchars($row['nama'])."</td>
-                  <td class='kategori'>".htmlspecialchars($row['kategori'])."</td>
-                  <td class='tag'>".htmlspecialchars($row['tag'])."</td>
-                  <td class='kreator'>".htmlspecialchars($row['kreator'])."</td>
-                  <td class='tanggal'>".htmlspecialchars(date('Y-m-d', strtotime($row['tanggal'])))."</td>
-                  <td class='aksi'><a href='view_counter.php?id=".$row['id']."' target='_blank' class='btn-lihat'>Lihat</a></td>
-              </tr>";
-              $no++;
+        while ($row = mysqli_fetch_assoc($tableResult)) {
+          echo "<tr>
+              <td class='no'>$no.</td>
+              <td class='cover'>";
+          
+          // tampilkan gambar
+          if (!empty($row['image'])) {
+            $imgPath = "../Admin/uploads/" . htmlspecialchars($row['image']);
+            if (file_exists(__DIR__ . "/../Admin/uploads/" . $row['image'])) {
+              echo "<img src='$imgPath' alt='Cover KV' style='width:80px;height:auto;border-radius:4px;'>";
+            } else {
+              echo "<div class='no-image'>[Gambar tidak ditemukan]</div>";
+            }
+          } else {
+            echo "-";
           }
+
+          echo "</td>
+              <td class='nama'>" . htmlspecialchars($row['nama']) . "</td>
+              <td class='campaign'>" . htmlspecialchars($row['campaign']) . "</td>
+              <td class='kategori'>" . htmlspecialchars($row['kategori']) . "</td>
+              <td class='source'>" . htmlspecialchars($row['source']) . "</td>
+              <td class='tanggal'>" . htmlspecialchars(date('Y-m-d', strtotime($row['tanggal']))) . "</td>
+              <td class='link'><a href='" . htmlspecialchars($row['link']) . "' target='_blank'>Drive</a></td>
+              <td class='aksi'><a href='view_counter.php?id=" . $row['id'] . "' target='_blank' class='btn-lihat'>Lihat</a></td>
+          </tr>";
+          $no++;
+        }
       } else {
-          echo "<tr><td colspan='8' class='no-data'>Tidak ada data KV yang tersedia berdasarkan filter yang dipilih.</td></tr>";
+        echo "<tr><td colspan='9' class='no-data'>Tidak ada data KV yang tersedia berdasarkan filter yang dipilih.</td></tr>";
       }
       ?>
       </tbody>

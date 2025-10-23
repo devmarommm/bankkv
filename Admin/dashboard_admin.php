@@ -7,7 +7,7 @@ include 'koneksi.php';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Admin | Bank KV</title>
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="dashboard_admin.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -28,84 +28,120 @@ include 'koneksi.php';
 </style>
 <div id="main-content" style="display: none;"></div>
 
-<header>
-  <div class="container">
-    <div class="logo">
-      <img src="../images/logo.png" alt="Bank KV Logo" height="40">
-    </div>
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <nav id="nav-menu">
-      <ul class="nav-links">
-        <li><a href="../Guest/dashboard_guest.php" class="nav-link">Beranda</a></li>
+<header class="navbar-kv">
+    <nav class="nav-container">
+      <ul class="nav-left">
+        <li><a href="../Guest/dashboard_guest.php" class="nav-link active">Beranda</a></li>
         <li><a href="analitik.html" class="nav-link">Analitik KV</a></li>
-        <li><a href="#" onclick="logoutUser()" class="btn btn-outline">Logout</a></li>
+      </ul>
+  
+      <div class="logo-center">
+        <img src="../images/logo.png" alt="Bank KV Logo" height="45">
+      </div>
+  
+      <ul class="nav-right">
+        <li><a href="#" onclick="logoutUser()" class="nav-link">Logout</a></li>
       </ul>
     </nav>
-  </div>
-</header>
+  </header>
 
-<main class="dashboard-admin">
+
+  <div class="dashboard-admin">
   <div class="welcome-box">
-    <h1>Selamat datang, <span>Admin</span>!</h1>
+    <h1>Selamat datang, Admin!</h1>
     <p class="welcome-sub">Senang bertemu lagi denganmu hari ini</p>
   </div>
-</main>
+
+  <div class="character-group">
+    <img src="../images/admin.png" alt="Karakter Ilustrasi">
+  </div>
+</div>
+
+
 
 <!-- Form Upload -->
 <div class="dashboard-admin">
   <h2 class="section-tittle">Upload Folder KV Baru</h2>
   <form action="upload_kv.php" method="POST" class="upload-form" enctype="multipart/form-data">
     <div class="form-grid">
+
+      <!-- 1. Tanggal -->
       <div class="form-group">
-        <input type="text" name="nama" placeholder="Nama Folder" required>
-      </div>
-      <div class="form-group">
-        <input type="text" name="kategori" placeholder="Kategori (misal Promo, Event)" required>
-      </div>
-      <div class="form-group">
-        <input type="text" name="tag" placeholder="Tag (misal: ramadan)">
-      </div>
-      <div class="form-group">
-        <input type="text" name="kreator" placeholder="Nama Kreator" required>
-      </div>
-      <div class="form-group">
+        <label>Tanggal</label>
         <input type="date" name="tanggal" required>
       </div>
+
+      <!-- 2. Nama Folder -->
       <div class="form-group">
-        <input type="text" name="link" placeholder="Link Google Drive Folder" required>
+        <label>Nama Folder</label>
+        <input type="text" name="nama" placeholder="Nama Folder" required>
       </div>
+
+            <!-- 5. Campaign -->
       <div class="form-group">
-        <label>Upload Gambar KV (opsional)</label>
-        <div id="drop-area" onclick="document.getElementById('imageInput').click();">
-          <div class="icon-upload">
-            <img src="../images/upload-icon.svg.svg" alt="Upload Icon" width="48">
-          </div>
-          <p class="drop-text"><strong>Drag & Drop</strong> gambar di sini atau <span class="highlight">klik</span></p>
-          <input type="file" name="image" id="imageInput" accept="image/*" hidden>
-          <div id="preview-image" class="preview-image"></div>
-          <p id="filename" class="filename-display"></p>
+        <label>Campaign</label>
+        <select name="campaign" required>
+          <option value="" disabled selected>Pilih Campaign</option>
+          <option value="Digital">Campaign Digital</option>
+          <option value="Branding Outlet">Branding Outlet</option>
+        </select>
+      </div>
+
+      <!-- 3. Kategori -->
+      <div class="form-group">
+        <label>Kategori</label>
+        <input type="text" name="kategori" placeholder="Kategori (misal: Promo, Event)" required>
+      </div>
+
+    <!-- 4. Source -->
+    <div class="form-group">
+      <label>Source</label>
+      <select name="source" required>
+        <option value="" disabled selected>Pilih Source</option>
+        <option value="Area">Area</option>
+        <option value="Region">Region</option>
+        <option value="HQ">HQ</option>
+      </select>
+    </div>
+
+
+      <!-- 5. Link -->
+      <div class="form-group">
+        <label>Link Google Drive Folder</label>
+        <input type="text" name="link" placeholder="Masukkan link Google Drive folder" required>
+      </div>
+
+    <!-- 6. Upload Gambar -->
+    <div class="form-group full-width">
+      <label>Upload Gambar KV (opsional)</label>
+      <div id="drop-area" onclick="document.getElementById('imageInput').click();">
+        <div class="icon-upload">
+          <img src="../images/upload-icon.svg.svg" alt="Upload Icon" width="48">
         </div>
+        <p class="drop-text"><strong>Drag & Drop</strong> gambar di sini atau <span class="highlight">klik</span></p>
+        <input type="file" name="image" id="imageInput" accept="image/*" hidden>
+        <div id="preview-image" class="preview-image"></div>
+        <p id="filename" class="filename-display"></p>
       </div>
     </div>
+
+
+    <!-- 7. Tombol Upload -->
     <button type="submit">Upload</button>
   </form>
 </div>
 
-<!-- Tabel Data -->
 <h2 class="section-tittle">Daftar Folder KV</h2>
 <div class="table-wrapper">
   <table class="kv-table">
     <thead>
       <tr>
-        <th>Nama</th>
-        <th>Kategori</th>
-        <th>Tag</th>
-        <th>Kreator</th>
+        <th>No</th>
         <th>Tanggal</th>
+        <th>Nama</th>
+        <th>Campaign</th>
+        <th>Kategori</th>
+        <th>Source</th>
         <th>Link</th>
         <th>Aksi</th>
       </tr>
@@ -113,18 +149,20 @@ include 'koneksi.php';
     <tbody>
       <?php
         $result = mysqli_query($conn, "SELECT * FROM kv_folders ORDER BY tanggal DESC");
+        $no = 1;
         while ($row = mysqli_fetch_assoc($result)) {
       ?>
       <tr>
-        <td><?= $row['nama'] ?></td>
-        <td><?= $row['kategori'] ?></td>
-        <td><?= $row['tag'] ?></td>
-        <td><?= $row['kreator'] ?></td>
-        <td><?= $row['tanggal'] ?></td>
-        <td><a href="<?= $row['link'] ?>" target="_blank">Link</a></td>
+        <td><?= $no++; ?></td>
+        <td><?= date('d-m-Y', strtotime($row['tanggal'])) ?></td>
+        <td><?= htmlspecialchars($row['nama']); ?></td>
+        <td><?= htmlspecialchars($row['campaign']); ?></td> <!-- ✅ Tambahan isi kolom Campaign -->
+        <td><?= htmlspecialchars($row['kategori']); ?></td>
+        <td><?= htmlspecialchars($row['source']); ?></td>
+        <td><a href="<?= htmlspecialchars($row['link']); ?>" target="_blank">Lihat</a></td>
         <td>
-          <form method="POST" action="hapus_kv.php">
-            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+          <form method="POST" action="hapus_kv.php" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+            <input type="hidden" name="id" value="<?= $row['id']; ?>">
             <button type="submit" class="btn-delete">Hapus</button>
           </form>
         </td>
@@ -330,6 +368,5 @@ include 'koneksi.php';
     }
   });
 </script>
-
 </body>
 </html>

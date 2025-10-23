@@ -3,109 +3,151 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Analitik KV - KV Bank</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="analitik.css" />
+  <title>Analitik KV | Bank KV</title>
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@800&display=swap" rel="stylesheet">
+
+  <!-- CSS (pastikan analitik.css berada di folder yang sama) -->
+  <link rel="stylesheet" href="analitik.css" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <header>
-      <div class="logo">
+
+  <!-- NAVBAR -->
+  <header class="navbar-kv">
+    <nav class="nav-container">
+      <ul class="nav-left">
+        <li><a href="../Guest/dashboard_guest.php" class="nav-link">Beranda</a></li>
+        <li><a href="#" class="nav-link active">Analitik KV</a></li>
+      </ul>
+
+      <div class="logo-center">
         <img src="../images/logo.png" alt="Logo Bank KV" />
       </div>
+
+      <ul class="nav-right">
+        <li><a href="../Admin/dashboard_admin.php" class="nav-link">Dashboard Admin</a></li>
+      </ul>
+    </nav>
   </header>
 
   <!-- HERO -->
   <section class="hero">
     <div class="hero-text">
       <h1>Dashboard <span>Analitik KV</span></h1>
-      <p>Pantau performa Key Visual anda melalui data penggunaan, popularitas dan interaksi</p>
+      <p>Pantau performa Key Visual Anda melalui data penggunaan, popularitas, dan interaksi untuk meningkatkan efektivitas kampanye.</p>
     </div>
-    <img src="../images/analitik.png" alt="Team Illustration" class="hero-img">
+
+    <div class="hero-img">
+      <img src="../images/analitik.png" alt="Ilustrasi Analitik" />
+    </div>
   </section>
 
   <!-- KONTEN -->
   <section class="content">
-    <!-- TOTAL KV -->
-    <div class="card total-kv">
-      <h2>Total KV</h2>
-      <div class="total-value">12</div>
-    </div>
-
-    <!-- KV POPULER -->
-    <div class="card">
-      <h2>KV Populer</h2>
-      <div class="filters">
-        <select><option>2025</option></select>
-        <select><option>Oktober</option></select>
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:24px;">
+      <!-- TOTAL KV -->
+      <div class="card total-kv" style="grid-column: span 1;">
+        <h2>Total KV</h2>
+        <div class="total-value">12</div>
       </div>
-      <div class="kv-info">
-        <div class="text-info">
-          <p><strong>Nama :</strong> Super Seru Girl</p>
-          <p><strong>Kategori :</strong> Mobile</p>
-          <p><strong>Tag :</strong> Promo</p>
-          <p><strong>Kreator :</strong> Rachtaelle</p>
-          <p><strong>Tanggal :</strong> 2025-10-02</p>
-          <p><strong>Views :</strong> 20</p>
+
+      <!-- KV POPULER -->
+      <div class="card kv-populer" style="grid-column: span 2;">
+        <h2>KV Populer</h2>
+        <div class="filters" style="margin-bottom:16px;">
+          <select><option>2025</option></select>
+          <select><option>Oktober</option></select>
         </div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Telkomsel_logo_2021.svg" alt="KV Image">
+        <div class="kv-info" style="align-items:center;">
+          <div class="text-info" style="flex:1;">
+            <p><strong>Nama :</strong> Super Seru Girl</p>
+            <p><strong>Kategori :</strong> Mobile</p>
+            <p><strong>Tag :</strong> Promo</p>
+            <p><strong>Kreator :</strong> Rachtaelle</p>
+            <p><strong>Tanggal :</strong> 2025-10-02</p>
+            <p><strong>Views :</strong> 20</p>
+          </div>
+          <img src="../uploads/sample-1.png" alt="KV Image" style="width:140px;border-radius:12px;margin-left:16px;">
+        </div>
       </div>
-    </div>
 
-    <!-- KATEGORI DOMINAN -->
-    <div class="card">
-      <h2>Kategori Dominan</h2>
-      <div class="filters">
-        <select><option>Tahun</option></select>
-        <select><option>Bulan</option></select>
+      <!-- KATEGORI DOMINAN -->
+      <div class="card" style="grid-column: span 3;">
+        <h2>Kategori Dominan</h2>
+        <div class="filters" style="margin-bottom:16px;">
+          <select><option>2025</option></select>
+          <select><option>Oktober</option></select>
+        </div>
+        <div class="dominant" style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <img src="https://cdn-icons-png.flaticon.com/512/679/679720.png" alt="Icon" style="width:60px;height:60px;border-radius:12px;background:#f4f4f4;">
+            <div>
+              <div class="dominant-name" style="font-size:1.3rem;font-weight:700;color:var(--color-primary-red);">Mobile</div>
+              <div class="dominant-value" style="font-size:1rem;font-weight:600;color:var(--color-secondary-orange);">20 KV</div>
+            </div>
+          </div>
+          <div style="font-weight:600;color:#666;">Persentase dominan: <span style="color:var(--color-primary-red);">60%</span></div>
+        </div>
       </div>
-      <div class="dominant">
-        <span class="dominant-name">Mobile</span>
-        <span class="dominant-value">20 KV</span>
-      </div>
-    </div>
 
-    <div class="chart-container">
-      <div class="chart-box">
-        <canvas id="lineChart"></canvas>
-      </div>
-      <div class="chart-box">
-        <canvas id="pieChart"></canvas>
+      <!-- CHARTS -->
+      <div class="chart-container" style="grid-column: 1 / -1; display:flex; gap:24px; flex-wrap:wrap; justify-content:center;">
+        <div class="chart-box" style="flex:1 1 480px; max-width:560px; min-height:320px;">
+          <canvas id="lineChart"></canvas>
+        </div>
+        <div class="chart-box" style="flex:1 1 320px; max-width:420px; min-height:320px;">
+          <canvas id="pieChart"></canvas>
+        </div>
       </div>
     </div>
   </section>
-
-  <footer>
-    <p>&copy; 2025 KV Bank. All rights reserved.</p>
-  </footer>
-
+  <!-- SCRIPT CHART -->
   <script>
-    // Dummy ChartJS
+    // Line chart
     new Chart(document.getElementById("lineChart"), {
       type: 'line',
       data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun"],
+        labels: ["Jan","Feb","Mar","Apr","Mei","Jun"],
         datasets: [{
+          label: "Jumlah KV",
           data: [10, 6, 9, 7, 8, 12],
-          borderColor: 'red',
-          borderWidth: 2,
-          tension: 0.3
+          borderColor: '#ff0025',
+          backgroundColor: 'rgba(255,0,37,0.05)',
+          tension: 0.3,
+          fill: true,
+          pointRadius: 4,
+          pointBackgroundColor: '#ff0025'
         }]
       },
-      options: { plugins: { legend: { display: false } } }
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 2 } }
+        }
+      }
     });
 
+    // Pie chart
     new Chart(document.getElementById("pieChart"), {
       type: 'pie',
       data: {
-        labels: ["Mobile", "Promo", "Retail"],
+        labels: ['Mobile','Promo','Retail'],
         datasets: [{
-          data: [60, 25, 15],
-          backgroundColor: ['red', 'orange', 'pink']
+          data: [60,25,15],
+          backgroundColor: ['#ff0025','#ff5e00','#ffb199']
         }]
       },
-      options: { plugins: { legend: { display: false } } }
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true, position: 'bottom' }
+        }
+      }
     });
   </script>
 

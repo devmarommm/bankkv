@@ -1,93 +1,127 @@
 :root {
-    /* Colors - Diperbarui sesuai spesifikasi */
-    --color-primary-red: #FF0025; 
-    --color-secondary-orange: #FF5E00; 
-    --color-text-dark: #333333;
-    --color-text-light: #FFFFFF;
-    --color-background-light: #F8F8F8;
-  
-    /* Typography */
-    --font-family-base: 'Poppins', sans-serif; /* Hanya Poppins, Hapus Helvetica dkk */
-    --font-family-title: 'Nunito', sans-serif; /* Font untuk "Halo!" */
-    --font-size-base: 16px;
+  --color-primary-red: #ff0025;
+  --color-secondary-orange: #ff5e00;
+  --color-text-dark: #333333;
+  --color-text-light: #ffffff;
+  --color-background-light: #ffffff;
+  --font-family-base: 'Poppins', sans-serif;
+}
+
+/* Reset */
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  background: var(--color-background-light);
+  color: var(--color-text-dark);
+  overflow-x: hidden;
+}
+
+/* ========================= */
+/* ======== NAVBAR ========= */
+/* ========================= */
+.navbar-kv {
+  background: linear-gradient(90deg, var(--color-primary-red), var(--color-secondary-orange));
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  padding: 10px 0;
+}
+
+/* Gunakan grid 3 kolom: kiri - logo - kanan */
+.nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 60px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 60px; /* jarak antar item */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Buat kanan agak menjauh */
+.nav-left {
+  justify-content: flex-end;
+  margin-right: 40px; /* Tambahkan jarak antara nav kiri dan logo */
+}
+
+.nav-right {
+  justify-content: flex-start;
+  margin-left: 40px; /* Tambahkan jarak antara logo dan nav kanan */
+}
+
+
+/* Logo Tengah */
+.logo-center {
+  background: #fff;
+  border-radius: 100px;
+  padding: 8px 45px; /* diperlebar sedikit */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-center img {
+  height: 45px;
+  width: auto;
+}
+
+/* Teks Link */
+.nav-link {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 17px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffe2d4;
+  transform: translateY(-2px);
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* Responsif */
+@media (max-width: 992px) {
+  .nav-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1rem;
   }
 
-  html, body {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  .nav-left,
+  .nav-right {
+    justify-content: center;
+    flex-wrap: wrap;
   }
-  
-  body > footer {
-    margin-top: auto;
-  }
-  
-  body {
-    font-family: var(--font-family-base);
-    font-size: var(--font-size-base);
-    color: var(--color-text-dark);
-    margin: 0;
-    line-height: 1.6;
-    background-color: #fff;
-  }
-  
-  a {
-    color: var(--color-secondary-orange);
-    text-decoration: none;
-  }
-  
-  /* ==================================== */
-  /* ============= INDEX.PHP ============ */
-  /* ==================================== */
-      /* ==================================== */
-      /* 1. HEADER (Latar Belakang & Logo) */
-      /* ==================================== */
-      header {
-        background: linear-gradient(135deg, var(--color-primary-red), var(--color-secondary-orange));
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        /* TINGGI HEADER DITINGKATKAN */
-        height: 90px; 
-        z-index: 100;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-  
-      /* Kapsul Logo berwarna putih, mengambil dari logo.png */
-      header .logo {
-        background: #fff;
-        border-radius: 50px;
-        /* PADDING DISESUAIKAN */
-        padding: 10px 30px; 
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      }
-  
-      header .logo img {
-        /* TINGGI LOGO DITINGKATKAN */
-        height: 55px; 
-        width: auto;
-      }
 
-      header .logo {
-        margin: 10px 0;
-     }
+  .logo-center {
+    padding: 8px 35px;
+  }
+}
 
-         /* === Logo Tengah === */
-    header .logo {
-        background: #fff;
-        border-radius: 50px;
-        padding: 6px 22px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      }
-  
-      header .logo img {
-        height: 45px;
-        width: auto;
-        display: block;
-      }
 
       /* ==================================== */
 /* ======== BODY & KONTEN UTAMA ======= */
@@ -106,7 +140,7 @@ body {
     padding: 6rem 8%;
     background: #fff;
     overflow: hidden;
-    margin-top: 90px;
+    margin-top: 0px;
     min-height: 550px; /* tinggi seperti desain */
     flex-wrap: nowrap;
     z-index: 1;
@@ -167,21 +201,22 @@ body {
     max-width: 520px;
   }
   
-  /* Gambar kanan */
-  .hero-img {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-  }
-  
-  .hero-img img {
-    width: 100%;
-    max-width: 480px;
-    height: auto;
-    object-fit: contain;
-  }
+/* Gambar kanan */
+.hero-img {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.hero-img img {
+  width: 100%;
+  max-width: 800px; /* sebelumnya 480px → diperbesar */
+  height: auto;
+  object-fit: contain;
+  transform: scale(1.05); /* sedikit diperbesar agar lebih hidup */
+}
   
   /* Jarak antar konten */
   .content {
@@ -213,20 +248,39 @@ body {
   /* ============= KONTEN =============== */
   /* ==================================== */
     /* Tambahkan jarak antara hero dan konten di bawah */
-    .content {
-        margin-top: 2rem !important;
-        position: relative;
-        z-index: 2;
-      }
+   /* Grid wrapper di dalam section .content */
+.content > div {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 24px;
+}
 
-  .card {
-    background: #fff;
-    border-radius: 25px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-    padding: 2rem;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
+/* Card default */
+.card {
+  background: #fff;
+  border-radius: 25px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  padding: 2rem;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Biar KV Populer lebih lebar */
+.kv-populer {
+  grid-column: span 2; /* isi dua kolom */
+}
+
+/* Responsif agar turun ke bawah di layar kecil */
+@media (max-width: 992px) {
+  .content > div {
+    grid-template-columns: 1fr;
   }
-  
+  .kv-populer {
+    grid-column: span 1;
+  }
+}
   .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 28px rgba(0,0,0,0.12);
@@ -237,6 +291,27 @@ body {
     color: var(--color-primary-red);
     margin-bottom: 1.2rem;
   }
+
+  /* ====== LAYOUT UNTUK CARD TOTAL & KV POPULER ====== */
+.card-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+/* Card Total KV */
+.card.total-kv {
+  flex: 1 1 300px; /* lebar minimum 300px */
+  max-width: 400px;
+}
+
+/* Card KV Populer — dibuat lebih lebar */
+.card.kv-populer {
+  flex: 2 1 600px; /* dua kali lebih lebar */
+  max-width: 800px; /* batas maksimal agar tetap rapi di layar besar */
+}
   
   /* Total KV */
   .total-kv {
@@ -248,19 +323,19 @@ body {
     font-weight: 800;
   }
   
-  /* Dropdown Filter */
   .filters {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 1.2rem;
+    gap: 10px;
+    margin-bottom: 15px;
   }
+
   .filters select {
-    padding: 0.6rem 1rem;
-    border-radius: 10px;
     border: 1px solid #ddd;
-    font-weight: 600;
-    cursor: pointer;
-    background: #fff;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-family: var(--font-family-base);
+    font-size: 14px;
+    outline: none;
   }
   
   /* KV POPULER INFO */
@@ -286,6 +361,21 @@ body {
     justify-content: space-between;
     align-items: center;
   }
+
+  .dominant-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .dominant-left img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #f4f4f4;
+  }
+
   .dominant-name {
     font-size: 1.3rem;
     font-weight: 700;
@@ -345,28 +435,3 @@ body {
       align-items: center;
     }
   }  
-  
-  /* ==================================== */
-/* ============== FOOTER ============== */
-/* ==================================== */
-footer {
-    background: linear-gradient(135deg, var(--color-primary-red), var(--color-secondary-orange));
-    color: var(--color-text-light);
-    text-align: center;
-    padding: 1.2rem 0;
-    font-weight: 600;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
-    width: 100%;
-    margin-top: 4rem;
-    position: relative;
-    bottom: 0;
-  }
-  
-  footer p {
-    margin: 0;
-    letter-spacing: 0.5px;
-    font-size: 0.95rem;
-  }
-  
