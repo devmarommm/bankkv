@@ -180,14 +180,14 @@ include 'koneksi.php';
 <script>
   // === Firebase Configuration ===
  if (!firebase.apps.length) {
-    const firebaseConfig = {
-      apiKey: "AIzaSyA3wCPXQkoIpf_sYoVNrseoTWp5heH0VAE",
-      authDomain: "bank-kv-1910f.firebaseapp.com",
-      projectId: "bank-kv-1910f",
-      storageBucket: "bank-kv-1910f.firebasestorage.app",
-      messagingSenderId: "87795172113",
-      appId: "1:87795172113:web:08b077dbfbdee9adbfc2b0",
-      measurementId: "G-84VE29GC3W"
+const firebaseConfig = {
+        apiKey: "AIzaSyC-OIn3tB1FdB6qqWKdJ5H23Y3KL9ruZtE",
+        authDomain: "bank-kv-3d712.firebaseapp.com",
+        projectId: "bank-kv-3d712",
+        storageBucket: "bank-kv-3d712.firebasestorage.app",
+        messagingSenderId: "107872137161",
+        appId: "1:107872137161:web:ffed5a4afab10033ea8218",
+        measurementId: "G-H6TY0MKPWS"
     };
     firebase.initializeApp(firebaseConfig);
   }
